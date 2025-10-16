@@ -1,34 +1,81 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Codeswear — Next.js E-commerce
 
-## Getting Started
+Minimal, production-ready e-commerce storefront built with Next.js.
 
-First, run the development server:
+## Overview
+This repository contains a Next.js application for an online store (product listing, cart, checkout, order history). It is intended as a starting point for building features like product management, authentication, and payment integration.
 
-```bash
-npm run dev
-# or
-yarn dev
+## Features
+- Server-side rendering and static optimizations with Next.js
+- Product listing and detail pages
+- Cart and checkout flow
+- Basic authentication (placeholder)
+- Extensible folder structure for API routes and integrations
+
+## Tech stack
+- Next.js (React)
+- Node.js
+- Any database or payment provider (configure via env)
+
+## Prerequisites
+- Node.js (16+ recommended)
+- Yarn or npm
+
+## Quick Start
+
+1. Clone the repo
+   ```bash
+   git clone <repo-url>
+   cd codeswear
+   ```
+
+2. Install dependencies
+   ```bash
+   npm install
+   # or
+   yarn add
+   ```
+
+<!-- ## Available Scripts
+- `dev` — run Next.js in development
+- `build` — build for production
+- `start` — start production server
+- `lint` — run linter
+- `test` — run tests (if configured) -->
+
+<!-- ## Folder Structure (suggested)
 ```
+/components   - reusable UI components
+/pages        - Next.js pages & API routes
+/lib          - helpers, clients (db, auth, payments)
+/styles       - global styles
+/public       - static assets
+/hooks        - custom React hooks
+``` -->
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<!-- ## Environment variables
+Provide required variables in `.env.local`. Example:
+```
+NEXT_PUBLIC_API_URL=http://localhost:3000/api
+DATABASE_URL=
+PAYMENT_SECRET=
+NEXTAUTH_SECRET=
+``` -->
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+<!-- ## Deployment
+- Build and export for production:
+  ```bash
+  npm run build
+  npm start
+  ```
+- Deploy to Vercel, Netlify, or any Node.js host. Configure env vars in the hosting dashboard. -->
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+<!-- ## Contributing
+- Fork the repository, create a feature branch, open a PR.
+- Keep changes focused and include tests where appropriate. -->
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+<!-- ## License
+Specify a license (e.g., MIT) in LICENSE.md. -->
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Contact
+For questions or issues, open an issue in the repository.
