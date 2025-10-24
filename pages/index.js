@@ -15,7 +15,7 @@ export default function Home() {
       </h1>
       <div className="mx-4">This is me</div>
       <div className="mx-4 bg-slate-500">This is me</div>
-      <div className="mx-60 bg-green-800">Dos bro</div>
+      <div className="mx-60 bg-green-800">Dos bro's tacos</div>
     </div>
   );
 }
