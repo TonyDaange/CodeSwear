@@ -1,2 +1,6 @@
+*{
+   font-family: monospace;
+}
+
 @import "tailwindcss";
 @tailwind utilities;
