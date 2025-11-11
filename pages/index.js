@@ -1,7 +1,4 @@
 import Head from "next/head";
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
-// import Image from 'next/image'
 // import styles from '../styles/Home.module.css'
 
 export default function Home() {
@@ -12,8 +9,8 @@ export default function Home() {
         <meta name="description" content="Codeswear - Wear the code" />
         <link rel="icon" href="/tshirt.png" />
       </Head>
-      <Navbar className="sticky" />
-      <img src="/home.png" alt="home" className="mx-auto my-5" />
+
+      <img src="/home.png" alt="home" className="mx-auto" />
       <section className="text-gray-400 body-font bg-gray-900">
         <div className="container px-5 py-24 mx-auto">
           <div className="flex flex-wrap w-full mb-20 flex-col items-center text-center">
@@ -182,10 +179,8 @@ export default function Home() {
               </div>
             </div>
           </div>
-          
         </div>
       </section>
-      <Footer />
     </div>
   );
 }

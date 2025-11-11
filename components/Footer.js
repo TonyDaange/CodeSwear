@@ -26,7 +26,7 @@ const Footer = () => {
               {/* <span className="ml-3 text-xl">Tailblocks</span> */}
             </Link>
             <p className="mt-2 text-xl text-gray-500 px-2">
-              Air plant banjo lyft occupy retro adaptogen indego
+              Air plant banjo lyft occupy retro adaptogen indegoyarn
             </p>
           </div>
           <div className="flex-grow flex flex-wrap xl:pl-20 md:pl-20 lg:pl-10 -mb-10 md:mt-0 mt-10 xl:text-left text-center ">
