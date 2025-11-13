@@ -1,6 +1,10 @@
 *{
    font-family: monospace;
 }
+body{
+   overflow-x: hidden;
+}
 
 @import "tailwindcss";
 @tailwind utilities;
+

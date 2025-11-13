@@ -10,8 +10,12 @@ export default function Home() {
         <link rel="icon" href="/tshirt.png" />
       </Head>
 
-      <img src="/home.png" alt="home" className="mx-auto" />
-      <section className="text-gray-400 body-font bg-gray-900">
+      <img
+        src="/home.png"
+        alt="home"
+        className="mx-auto lg:mt-35 xl:mt-25 mt-42"
+      />
+      <section className="text-white body-font bg-black">
         <div className="container px-5 py-24 mx-auto">
           <div className="flex flex-wrap w-full mb-20 flex-col items-center text-center">
             <h1 className="lg:text-3xl text-2xl font-medium title-font mb-2 text-white">
