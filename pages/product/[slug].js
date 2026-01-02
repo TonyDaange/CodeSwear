@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 
 const ProductPage = () => {
@@ -8,6 +8,41 @@ const ProductPage = () => {
   {
     /* <h1>Product ID: {slug}</h1> */
   }
+  // useState
+  const [pin, setPin] = useState()
+  const [service, setService] = useState();
+  const checkServiceability = async () => {
+    // const pin = document.querySelector("input").value;
+    // setService = false;
+    const pins = await fetch("http://localhost:4200/api/pincode");
+    // const pincodes = await res.json();
+    // for (let i = 0; i < pincodes.length; i++) {
+    //   if (pincodes[i] == parseInt(pin)) {
+    //     setService = true;
+    //     break;
+    //   }
+    // }
+    // if (service) {
+    //   alert("Yay! We deliver to this pincode.");
+    // } else {
+    //   alert("Sorry! We do not deliver to this pincode yet.");
+    // }
+    const pincodes = await pins.json();
+    // console.log(pincodes, pin);
+    if (pincodes.includes(parseInt(pin))) {
+      setService(true);
+      // alert("Yay! We deliver to this pincode.");
+    } else {
+      setService(false);
+      // alert("Sorry! We do not deliver to this pincode yet.");
+    }
+    console.log(service);
+  };
+  const onChangePin = (e) => {
+    // console.log(e.target.value);
+    setPin(e.target.value);
+  };
+
   return (
     <section className="text-gray-600 body-font overflow-hidden lg:mt-35 xl:mt-25 mt-65 text-2xl">
       <div className="px-5 py-24 mx-auto">
@@ -19,10 +54,10 @@ const ProductPage = () => {
           />
           <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
             <h2 className="text-[15px] title-font text-gray-500 tracking-widest">
-              BRAND NAME
+              CODESWEAR
             </h2>
             <h1 className="text-gray-900 text-4xl title-font font-medium mb-1">
-              The Catcher in the Rye
+              Green Hoodie
             </h1>
             <div className="flex mb-4 text-2xl">
               <span className="flex items-center ">
@@ -102,7 +137,7 @@ const ProductPage = () => {
               <div className="flex ml-6 items-center">
                 <span className="mr-3">Size</span>
                 <div className="relative">
-                  <select className="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-500 text-base pl-3 pr-10">
+                  <select className="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-500 text-xl pl-3 pr-10 ">
                     <option>SM</option>
                     <option>M</option>
                     <option>L</option>
@@ -126,9 +161,12 @@ const ProductPage = () => {
             </div>
             <div className="flex">
               <span className="title-font font-medium text-3xl text-gray-900">
-                $58.00
+                ₹599.00
               </span>
-              <button className="flex mx-5 text-white bg-blue-500 border-0 py-2 px-6 focus:outline-none hover:bg-blue-600 rounded">
+              <button className="flex md:mx-5 mx-2 text-white bg-blue-500 border-0 lg:py-2 py-1 md:px-4 xl:px-6 px-2 focus:outline-none hover:bg-blue-800 rounded">
+                Buy Now
+              </button>
+              <button className="flex  text-white bg-blue-500 border-0 lg:py-2 py-1 md:px-4 xl:px-6 px-2 focus:outline-none hover:bg-blue-800 rounded">
                 Add to Cart
               </button>
               <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-auto hover:text-red-600 hover:bg-gray-300">
@@ -144,6 +182,36 @@ const ProductPage = () => {
                 </svg>
               </button>
             </div>
+            <div className="pin mt-6 flex space-x-2">
+              <input
+                onChange={onChangePin}
+                type="number"
+                className="outline-2 outline-black text-black pl-2 h-[34px] rounded"
+                placeholder="Enter your PIN Code "
+              />
+              <button
+                onClick={checkServiceability}
+                className="ml-2 bg-blue-500 text-white px-4 py-1 rounded h-[34px] hover:bg-blue-800 outline-2 outline-blue-500 hover:outline-blue-800"
+              >
+                Check
+              </button>
+            </div>
+            {service && service != null && (
+              <div
+                id="serviceability-message"
+                className="text-green-500 text-lg mt-5"
+              >
+                Yay! We deliver to this pincode.
+              </div>
+            )}
+            {!service && service != null && (
+              <div
+                id="serviceability-message"
+                className="text-red-500 text-lg mt-5"
+              >
+                Sorry! We don't deliver to this pincode yet.
+              </div>
+            )}
           </div>
         </div>
       </div>
