@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 
-const ProductPage = () => {
+const ProductPage = ({ addToCart }) => {
   const router = useRouter();
   const { slug } = router.query;
 
@@ -9,7 +9,7 @@ const ProductPage = () => {
     /* <h1>Product ID: {slug}</h1> */
   }
   // useState
-  const [pin, setPin] = useState()
+  const [pin, setPin] = useState();
   const [service, setService] = useState();
   const checkServiceability = async () => {
     // const pin = document.querySelector("input").value;
@@ -36,7 +36,7 @@ const ProductPage = () => {
       setService(false);
       // alert("Sorry! We do not deliver to this pincode yet.");
     }
-    console.log(service);
+    // console.log(service);
   };
   const onChangePin = (e) => {
     // console.log(e.target.value);
@@ -166,7 +166,10 @@ const ProductPage = () => {
               <button className="flex md:mx-5 mx-2 text-white bg-blue-500 border-0 lg:py-2 py-1 md:px-4 xl:px-6 px-2 focus:outline-none hover:bg-blue-800 rounded">
                 Buy Now
               </button>
-              <button className="flex  text-white bg-blue-500 border-0 lg:py-2 py-1 md:px-4 xl:px-6 px-2 focus:outline-none hover:bg-blue-800 rounded">
+              <button
+                onClick={()=> {addToCart(slug, 1, 599, "Green Hoodie", "XL", "Green")}}
+                className="flex  text-white bg-blue-500 border-0 lg:py-2 py-1 md:px-4 xl:px-6 px-2 focus:outline-none hover:bg-blue-800 rounded"
+              >
                 Add to Cart
               </button>
               <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-auto hover:text-red-600 hover:bg-gray-300">

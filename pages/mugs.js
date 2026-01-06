@@ -8,7 +8,7 @@ const Mugs = () => {
         <div className="container px-4 py-20 mx-auto">
           <div className="flex flex-wrap ">
             <div className="lg:w-1/5 md:w-1/2 p-4 w-full shadow-[0_4px_8px_0_rgba(0,0,0,0.2)] hover:shadow-[0_10px_20px_0_rgba(0,0,0,0.2)] transition-shadow duration-800] lg:m-5">
-              <Link href="/product/wear-the-code-tshirt-dark-blue">
+              <Link href="/product/wear-the-code-mug-dark-blue-with-spoon">
                 <a className="block relative h-auto rounded overflow-hidden">
                   <img
                     alt="ecommerce"
@@ -30,7 +30,7 @@ const Mugs = () => {
             </div>
 
             <div className="lg:w-1/5 md:w-1/2 p-4 w-full shadow-[0_4px_8px_0_rgba(0,0,0,0.2)] hover:shadow-[0_10px_20px_0_rgba(0,0,0,0.2)] transition-shadow duration-800] lg:mx-5 lg:my-5">
-              <Link href="/product/wear-the-code-tshirt-black">
+              <Link href="/product/wear-the-code-mug-pink-with-lid">
                 <a className="block relative h-auto rounded overflow-hidden">
                   <img
                     alt="ecommerce"
@@ -52,7 +52,7 @@ const Mugs = () => {
             </div>
 
             <div className="lg:w-1/5 md:w-1/2 p-4 w-full shadow-[0_4px_8px_0_rgba(0,0,0,0.2)] hover:shadow-[0_10px_20px_0_rgba(0,0,0,0.2)] transition-shadow duration-800] lg:mx-5 lg:my-5">
-              <Link href="/product/wear-the-code-tshirt-light-blue">
+              <Link href="/product/wear-the-code-mug-black-with-lid">
                 <a className="block relative h-auto rounded overflow-hidden">
                   <img
                     alt="ecommerce"
@@ -74,7 +74,7 @@ const Mugs = () => {
             </div>
 
             <div className="lg:w-1/5 md:w-1/2 p-4 w-full shadow-[0_4px_8px_0_rgba(0,0,0,0.2)] hover:shadow-[0_10px_20px_0_rgba(0,0,0,0.2)] transition-shadow duration-800] lg:mx-5 lg:my-5">
-              <Link href="/product/wear-the-code-tshirt-off-white">
+              <Link href="/product/wear-the-code-mug-pink-with-spoon">
                 <a className="block relative h-auto rounded overflow-hidden">
                   <img
                     alt="ecommerce"
@@ -96,7 +96,7 @@ const Mugs = () => {
             </div>
 
             <div className="lg:w-1/5 md:w-1/2 p-4 w-full shadow-[0_4px_8px_0_rgba(0,0,0,0.2)] hover:shadow-[0_10px_20px_0_rgba(0,0,0,0.2)] transition-shadow duration-800] lg:mx-5 lg:my-5">
-              <Link href="/product/wear-the-code-tshirt-dark-green">
+              <Link href="/product/wear-the-code-mug-dark-blue-with-crown-and-spoon">
                 <a className="block relative h-auto rounded overflow-hidden">
                   <img
                     alt="ecommerce"
@@ -118,7 +118,7 @@ const Mugs = () => {
             </div>
 
             <div className="lg:w-1/5 md:w-1/2 p-4 w-full shadow-[0_4px_8px_0_rgba(0,0,0,0.2)] hover:shadow-[0_10px_20px_0_rgba(0,0,0,0.2)] transition-shadow duration-800] lg:mx-5 lg:my-5">
-              <Link href="/product/wear-the-code-tshirt-red">
+              <Link href="/product/wear-the-code-mug-pink-with-crown-and-spoon">
                 <a className="block relative h-auto rounded overflow-hidden">
                   <img
                     alt="ecommerce"
@@ -140,7 +140,7 @@ const Mugs = () => {
             </div>
 
             <div className="lg:w-1/5 md:w-1/2 p-4 w-full shadow-[0_4px_8px_0_rgba(0,0,0,0.2)] hover:shadow-[0_10px_20px_0_rgba(0,0,0,0.2)] transition-shadow duration-800] lg:mx-5 lg:my-5">
-              <Link href="/product/wear-the-code-tshirt-pink">
+              <Link href="/product/wear-the-code-mug-cyan-with-crown-and-spoon">
                 <a className="block relative h-auto rounded overflow-hidden">
                   <img
                     alt="ecommerce"
@@ -162,7 +162,7 @@ const Mugs = () => {
             </div>
 
             <div className="lg:w-1/5 md:w-1/2 p-4 w-full shadow-[0_4px_8px_0_rgba(0,0,0,0.2)] hover:shadow-[0_10px_20px_0_rgba(0,0,0,0.2)] transition-shadow duration-800] lg:mx-5 lg:my-5">
-              <Link href="/product/wear-the-code-tshirt-yellow">
+              <Link href="/product/wear-the-code-mug-black-with-crown-and-spoon">
                 <a className="block relative rounded overflow-hidden">
                   <img
                     alt="ecommerce"
