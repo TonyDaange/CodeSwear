@@ -11,6 +11,7 @@ function MyApp({ Component, pageProps }) {
     try {
       if (localStorage.getItem("cart")) {
         setCart(JSON.parse(localStorage.getItem("cart")));
+        saveCart(JSON.parse(localStorage.getItem("cart")));
       }
     } catch (error) {
       console.error("Error loading cart from localStorage:", error);
@@ -18,7 +19,7 @@ function MyApp({ Component, pageProps }) {
     }
   }, []);
 
-  const seveCart = (myCart) => {
+  const saveCart = (myCart) => {
     localStorage.setItem("cart", JSON.stringify(myCart));
     let subt = 0;
     let keys = Object.keys(myCart);
@@ -42,13 +43,13 @@ function MyApp({ Component, pageProps }) {
     setCart(newCart);
     let newSubTotal = subTotal + qty * price;
     setSubTotal(newSubTotal);
-    seveCart(newCart);
+    saveCart(newCart);
   };
 
   const clearCart = () => {
     setCart({});
     setSubTotal(0);
-    seveCart({});
+    saveCart({});
     console.log("Cart has been cleared.");
   };
 
@@ -65,7 +66,7 @@ function MyApp({ Component, pageProps }) {
     setCart(newCart);
     let newSubTotal = subTotal - qty * price;
     setSubTotal(newSubTotal);
-    seveCart(newCart);
+    saveCart(newCart);
   };
 
   return (

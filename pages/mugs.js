@@ -6,7 +6,7 @@ const Mugs = () => {
     <div>
       <section className="text-gray-600 body-font text-2xl lg:mt-35 xl:mt-25 mt-42">
         <div className="container px-4 py-20 mx-auto">
-          <div className="flex flex-wrap ">
+          <div className="flex flex-wrap justify-center ">
             <div className="lg:w-1/5 md:w-1/2 p-4 w-full shadow-[0_4px_8px_0_rgba(0,0,0,0.2)] hover:shadow-[0_10px_20px_0_rgba(0,0,0,0.2)] transition-shadow duration-800] lg:m-5">
               <Link href="/product/wear-the-code-mug-dark-blue-with-spoon">
                 <a className="block relative h-auto rounded overflow-hidden">

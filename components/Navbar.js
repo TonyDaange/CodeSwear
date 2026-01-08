@@ -86,9 +86,7 @@ const Navbar = ({ cart, addToCart, removeFromCart, clearCart, subTotal }) => {
 
             {/* sidebar ↓ */}
 
-            <div
-              ref={ref}
-              className="sidebar fixed top-42 lg:top-35 xl:top-25 right-0 bg-gray-900 transform translate-x-full transition-transform duration-300 ease-in-out md:w-110 w-78 z-50 flex flex-col px-5 scrollbar-hide rounded-l-2xl "
+            <div ref={ref} className="sidebar fixed top-42 lg:top-35 xl:top-25 right-0 bg-gray-900 transform translate-x-full transition-transform duration-300 ease-in-out md:w-110 w-78 z-50 flex flex-col px-5 scrollbar-hide rounded-l-2xl "
               style={{ height: "calc(100vh - 10.5rem)" }}
             >
               <h2 className="text-3xl font-bold px-5 pt-5 pb-2 bg-gray-900 flex-shrink-0">
@@ -102,30 +100,56 @@ const Navbar = ({ cart, addToCart, removeFromCart, clearCart, subTotal }) => {
                 {Object.keys(cart).map((k) => {
                   return (
                     <li key={k} className="flex items-center my-2">
-                      <span className="w-3/5 break-words overflow-hidden">
+                      <span className="w-5/6 break-words overflow-hidden">
                         {cart[k].name} {cart[k].size} ({cart[k].variant})
                       </span>
                       {/* <span className="w-3/5 break-words overflow-hidden">
                          Green Hoodie - SM Green
                       </span> */}
                       <AiFillMinusSquare
-                        onClick={()=> {removeFromCart(k, 1, cart[k].price , cart[k].name, cart[k].size, cart[k].variant)}}
-                        className="text-4xl w-1/5 ml-4 cursor-pointer hover:text-red-400 flex-shrink-0"
+                        onClick={() => {
+                          removeFromCart(
+                            k,
+                            1,
+                            cart[k].price,
+                            cart[k].name,
+                            cart[k].size,
+                            cart[k].variant
+                          );
+                        }}
+                        className="text-4xl ml-4 cursor-pointer hover:text-red-400 flex-shrink-0"
                       />
-                      <span className="w-1/5 text-center">{cart[k].qty}</span>
+                      <span className="w-1/24 text-center">{cart[k].qty}</span>
                       <AiFillPlusSquare
-                        onClick={()=> {addToCart(k, 1, cart[k].price , cart[k].name, cart[k].size, cart[k].variant)}}
-                        className="text-4xl w-1/5 cursor-pointer hover:text-green-400 flex-shrink-0" />
+                        onClick={() => {
+                          addToCart(
+                            k,
+                            1,
+                            cart[k].price,
+                            cart[k].name,
+                            cart[k].size,
+                            cart[k].variant
+                          );
+                        }}
+                        className="text-4xl cursor-pointer hover:text-green-400 flex-shrink-0"
+                      />
                     </li>
                   );
                 })}
+                {/* {subTotal > 0 && ( */}
+                  <div className="my-4 mx-6 text-2xl">
+                    <strong>Subtotal: </strong> ₹{subTotal}
+                  </div>
+                {/*  )} */}
               </ol>
 
               <div className="bg-gray-900 py-4 px-5 border-t border-gray-700 flex-shrink-0 flex lg:justify-between lg:space-x-5 lg:flex-row flex-col space-y-3">
+                <Link href="/checkout">
                 <button className="w-full text-white bg-blue-600 border-0 py-2 px-8 focus:outline-none hover:bg-blue-500 rounded text-xl font-semibold flex justify-center items-center ">
                   <HiShoppingBag className="text-4xl lg:text-5xl mr-5 lg:mr-3" />
                   Check Out
                 </button>
+                </Link>
                 <button
                   onClick={clearCart}
                   className="w-full text-white bg-blue-600 border-0 py-2 lg:py-0 px-8 focus:outline-none hover:bg-blue-500 rounded text-xl font-semibold flex justify-center items-center lg:h-18"

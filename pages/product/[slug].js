@@ -167,7 +167,9 @@ const ProductPage = ({ addToCart }) => {
                 Buy Now
               </button>
               <button
-                onClick={()=> {addToCart(slug, 1, 599, "Green Hoodie", "XL", "Green")}}
+                onClick={() => {
+                  addToCart(slug, 1, 599, "Green Hoodie", "XL", "Green");
+                }}
                 className="flex  text-white bg-blue-500 border-0 lg:py-2 py-1 md:px-4 xl:px-6 px-2 focus:outline-none hover:bg-blue-800 rounded"
               >
                 Add to Cart
