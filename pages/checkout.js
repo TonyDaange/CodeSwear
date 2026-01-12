@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { AiFillMinusSquare, AiFillPlusSquare } from "react-icons/ai";
 import { HiShoppingBag } from "react-icons/hi2";
 
@@ -170,12 +171,12 @@ const checkout = ({ cart, addToCart, removeFromCart, subTotal }) => {
         </div>
 
         <div className=" py-4 px-5 flex-shrink-0 flex lg:justify-between lg:space-x-5 lg:flex-row flex-col space-y-3 ">
-          {/* <Link href="/checkout"> */}
           <button className="w-full text-white bg-blue-600 border-0 py-2 px-8 focus:outline-none hover:bg-blue-500 rounded text-3xl font-semibold flex justify-center items-center ">
+          <Link href="/order" className="flex justify-center items-center">
             <HiShoppingBag className="text-4xl lg:text-5xl mr-5 lg:mr-3" />
             Pay ₹{subTotal}
+          </Link>
           </button>
-          {/* </Link> */}
         </div>
       </div>
     </div>

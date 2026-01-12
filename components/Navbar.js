@@ -4,6 +4,7 @@ import { TiShoppingCart } from "react-icons/ti";
 import { AiFillMinusSquare, AiFillPlusSquare } from "react-icons/ai";
 import { HiShoppingBag } from "react-icons/hi2";
 import { BsTrash3Fill } from "react-icons/bs";
+import { MdAccountBox } from "react-icons/md";
 
 const Navbar = ({ cart, addToCart, removeFromCart, clearCart, subTotal }) => {
   // console.log(cart, addToCart, removeFromCart, clearCart, subTotal);
@@ -70,15 +71,17 @@ const Navbar = ({ cart, addToCart, removeFromCart, clearCart, subTotal }) => {
 
             {/* Cart (stays on the right) */}
             <div className="flex items-center ml-0 flex-none absolute top-10 right-5 lg:top-8 lg:right-10 xl:static xl:right-6 xl:mr-10 ">
-              <button className="hover:text-blue-800 relative pr-1 flex flex-col items-center">
+              <button className=" relative pr-1 flex ">
+                <Link href="/login">
+                  <MdAccountBox className="hover:text-blue-800 text-5xl lg:text-7xl xl:text-6xl cursor-pointer mx-1" />
+                </Link>
                 <TiShoppingCart
                   onClick={ToggleCart}
-                  className="text-7xl xl:text-6xl cursor-pointer"
+                  className="hover:text-blue-800 text-5xl lg:text-7xl xl:text-6xl cursor-pointer"
                 />
-                <span className="absolute -top-1 -right-1  bg-blue-600 text-white text-2xl rounded-full h-9 xl:h-7 w-9 xl:w-7 flex items-center justify-center">
-                  {/* {totalItems} */}
-                </span>
-
+                {/* <span className="absolute -top-1 -right-1  bg-blue-600 text-white text-2xl rounded-full h-9 xl:h-7 w-9 xl:w-7 flex items-center justify-center">
+                  {totalItems} 
+                </span> */}
                 {/* small triangle under the cart (points down) */}
                 {/* <div className="absolute left-1/2 transform -translate-x-1/2 top-full mt-1 w-0 h-0 border-l-15 border-r-15 border-b-15 border-l-transparent border-r-transparent border-b-gray-900 pointer-events-none"></div> */}
               </button>
@@ -86,7 +89,9 @@ const Navbar = ({ cart, addToCart, removeFromCart, clearCart, subTotal }) => {
 
             {/* sidebar ↓ */}
 
-            <div ref={ref} className="sidebar fixed top-42 lg:top-35 xl:top-25 right-0 bg-gray-900 transform translate-x-full transition-transform duration-300 ease-in-out md:w-110 w-78 z-50 flex flex-col px-5 scrollbar-hide rounded-l-2xl "
+            <div
+              ref={ref}
+              className="sidebar fixed top-42 lg:top-35 xl:top-25 right-0 bg-gray-900 transform translate-x-full transition-transform duration-300 ease-in-out md:w-110 w-78 z-50 flex flex-col px-5 scrollbar-hide rounded-l-2xl "
               style={{ height: "calc(100vh - 10.5rem)" }}
             >
               <h2 className="text-3xl font-bold px-5 pt-5 pb-2 bg-gray-900 flex-shrink-0">
@@ -137,18 +142,18 @@ const Navbar = ({ cart, addToCart, removeFromCart, clearCart, subTotal }) => {
                   );
                 })}
                 {/* {subTotal > 0 && ( */}
-                  <div className="my-4 mx-6 text-2xl">
-                    <strong>Subtotal: </strong> ₹{subTotal}
-                  </div>
+                <div className="my-4 mx-6 text-2xl">
+                  <strong>Subtotal: </strong> ₹{subTotal}
+                </div>
                 {/*  )} */}
               </ol>
 
               <div className="bg-gray-900 py-4 px-5 border-t border-gray-700 flex-shrink-0 flex lg:justify-between lg:space-x-5 lg:flex-row flex-col space-y-3">
                 <Link href="/checkout">
-                <button className="w-full text-white bg-blue-600 border-0 py-2 px-8 focus:outline-none hover:bg-blue-500 rounded text-xl font-semibold flex justify-center items-center ">
-                  <HiShoppingBag className="text-4xl lg:text-5xl mr-5 lg:mr-3" />
-                  Check Out
-                </button>
+                  <button className="w-full text-white bg-blue-600 border-0 py-2 px-8 focus:outline-none hover:bg-blue-500 rounded text-xl font-semibold flex justify-center items-center ">
+                    <HiShoppingBag className="text-4xl lg:text-5xl mr-5 lg:mr-3" />
+                    Check Out
+                  </button>
                 </Link>
                 <button
                   onClick={clearCart}

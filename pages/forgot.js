@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 
-const Login = () => {
+const Forgot = () => {
   return (
     <div className="lg:mt-35 xl:mt-25 mt-42">
       <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 text-2xl">
@@ -12,15 +12,15 @@ const Login = () => {
             className="mx-auto h-20 w-auto"
           />
           <h2 className="mt-10 text-center text-4xl font-bold  text-gray-900">
-            Log in to your account
+            Forgot your password?
           </h2>
           <p className="mt-2 text-center">
             Or{" "}
             <Link
-              href="/signup"
+              href="/login"
               className="font-semibold text-blue-600 hover:text-blue-500"
             >
-              Sign up
+              Log in
             </Link>
           </p>
         </div>
@@ -36,22 +36,12 @@ const Login = () => {
                   placeholder="Email"
                   required
                   autoComplete="email"
-                  className="block w-full rounded-t-lg bg-white px-3 py-1.5 text-2xl text-gray-900 outline-2 -outline-offset-1 outline-gray-400 placeholder:text-gray-400 focus:outline-3 focus:-outline-offset-2 focus:outline-blue-600 "
+                  className="block w-full rounded-lg bg-white px-3 py-1.5 text-2xl text-gray-900 outline-2 -outline-offset-1 outline-gray-400 placeholder:text-gray-400 focus:outline-3 focus:-outline-offset-2 focus:outline-blue-600 "
                 />
               </div>
-              <div className="mt-0">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  placeholder="Password"
-                  required
-                  autoComplete="current-password"
-                  className="block w-full rounded-b-lg bg-white px-3 py-1.5 text-2xl text-gray-900 outline-2 -outline-offset-1 outline-gray-400 placeholder:text-gray-400 focus:outline-3 focus:-outline-offset-2 focus:outline-blue-600 outline-b"
-                />
-              </div>
+              
             </div>
-            <div className="flex items-center justify-between mt-6">
+            {/* <div className="flex items-center justify-between mt-6">
               <div className="flex items-center">
                 <input
                   id="remember-me"
@@ -74,7 +64,7 @@ const Login = () => {
                   Forgot password?
                 </Link>
               </div>
-            </div>
+            </div> */}
 
             <div>
               <button
@@ -96,7 +86,7 @@ const Login = () => {
                     />
                   </svg>
                 </span>
-                Log in
+                Continue
               </button>
             </div>
           </form>
@@ -106,4 +96,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Forgot;
