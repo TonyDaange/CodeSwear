@@ -1,3 +1,5 @@
+
+
 const mongoose = require("mongoose");
 
 const ProductSchema = new mongoose.Schema({
@@ -37,5 +39,6 @@ const ProductSchema = new mongoose.Schema({
     required: true,
   },
 });
+mongoose.models = {};
 
 export default mongoose.model("Product", ProductSchema);

@@ -1,2 +1,56 @@
-GET http://localhost:4200/checkout
-Accept: application/json
+# POST http://localhost:4200/api/updateproducts
+# Content-Type: application/json
+# Accept: application/json
+
+# [
+#     {
+#       "_id": "696531bf526f9586ff39e7c0",
+#       "name": "Hoodie",
+#       "slug": "wear-the-code-hoodie-dark-green2with5",
+#       "desc": "ohhhh",
+#       "img": "fdssdf",
+#       "category": "hoodie",
+#       "size": "sm",
+#       "color": "Green",
+#       "price": 699,
+#       "availableQty": 5,
+#       "__v": 0
+#     }
+
+# ]
+
+# GET http://localhost:4200/api/getproducts
+# Content-Type: application/json
+# Accept: application/json
+
+
+
+
+# POST http://localhost:4200/api/addproducts
+# Content-Type: application/json
+# Accept: application/json
+# [{
+#   "name": "Hoodie",
+#   "slug": "wear-the-code-hoodie-darkggreenwith5",
+#   "desc": "tbhgf",
+#   "img": "fdssdf",
+#   "category": "hoodie",
+#   "size": "XL",
+#   "color": "Green",
+#   "price": 599,
+#   "availableQty": 6
+# },
+# {
+#   "name": "Hoodie 2",
+#   "slug": "wear-the-code-hoodietdark-greenwitsm",
+#   "desc": "tbhgf",
+#   "img": "fdssdf",
+#   "category": "hoodie",
+#   "size": "SM",
+#   "color": "Green",
+#   "price": 599,
+#   "availableQty": 5
+# }
+# ]
+
+
