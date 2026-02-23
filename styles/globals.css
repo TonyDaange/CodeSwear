@@ -1,10 +1,22 @@
-*{
-   font-family: monospace;
+* {
+  font-family: monospace;
 }
-body{
-   overflow-x: hidden;
+body {
+  overflow-x: hidden;
 }
 
 @import "tailwindcss";
 @tailwind utilities;
 
+/* Hide scrollbar only for the cart sidebar (.sidebar) while keeping scrolling */
+.sidebar,
+.sidebar ol {
+  overflow: auto;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
+}
+.sidebar::-webkit-scrollbar,
+.sidebar ol::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}

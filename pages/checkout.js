@@ -127,7 +127,7 @@ const checkout = ({ cart, addToCart, removeFromCart, subTotal }) => {
             return (
               <li key={k} className="flex items-center my-2">
                 <span className="w-5/6 break-words overflow-hidden">
-                  {cart[k].name} {cart[k].size} ({cart[k].variant})
+                  {cart[k].name} ({cart[k].size}/{cart[k].variant})
                 </span>
                 {/* <span className="w-3/5 break-words overflow-hidden">
                          Green Hoodie - SM Green

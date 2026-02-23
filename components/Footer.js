@@ -25,27 +25,51 @@ const Footer = () => {
                 /> */}
               {/* <span className="ml-3 text-xl">Tailblocks</span> */}
             </Link>
-            <p className="mt-2 text-xl text-gray-500 px-2">
-              Air plant banjo lyft occupy retro adaptogen indegoyarn
+            <p className="mt-2 text-2xl text-gray-500 px-2">
+              Wear the &lt;code/&gt;
+            </p>
+            <p className=" text-2xl text-gray-500 px-2">
+              Premium coding t-shirts, hoodies, and accessories.
+              {/* Show off your love for coding with our stylish and comfortable apparel. Perfect for developers, programmers, and tech enthusiasts. Shop now and code in style! */}
             </p>
           </div>
           <div className="flex-grow flex flex-wrap xl:pl-20 md:pl-20 lg:pl-10 -mb-10 md:mt-0 mt-10 xl:text-left text-center ">
             <div className="lg:w-1/4 md:w-1/2 w-full px-4">
               <h2 className="title-font font-medium text-white tracking-widest text-2xl mb-3">
-                CATEGORIES
+                SHOP
               </h2>
               <nav className="list-none mb-10">
                 <li>
-                  <a className="text-white hover:text-blue-800">First Link</a>
+                  <Link
+                    href={"/tshirts"}
+                    className="text-white hover:text-blue-800"
+                  >
+                    Tishrts
+                  </Link>
                 </li>
                 <li>
-                  <a className="text-white hover:text-blue-800">Second Link</a>
+                  <Link
+                    href={"/hoodies"}
+                    className="text-white hover:text-blue-800"
+                  >
+                    Hoodies
+                  </Link>
                 </li>
                 <li>
-                  <a className="text-white hover:text-blue-800">Third Link</a>
+                  <Link
+                    href={"/mugs"}
+                    className="text-white hover:text-blue-800"
+                  >
+                    Mugs
+                  </Link>
                 </li>
                 <li>
-                  <a className="text-white hover:text-blue-800">Fourth Link</a>
+                  <Link
+                    href={"/stickers"}
+                    className="text-white hover:text-blue-800"
+                  >
+                    Stickers
+                  </Link>
                 </li>
               </nav>
             </div>
@@ -70,7 +94,7 @@ const Footer = () => {
             </div>
             <div className="lg:w-1/4 md:w-1/2 w-full px-4">
               <h2 className="title-font font-medium text-white tracking-widest text-2xl mb-3">
-                CATEGORIES
+                POLICY
               </h2>
               <nav className="list-none mb-10">
                 <li>
@@ -89,7 +113,7 @@ const Footer = () => {
             </div>
             <div className="lg:w-1/4 md:w-1/2 w-full px-4">
               <h2 className="title-font font-medium text-white tracking-widest text-2xl mb-3">
-                CATEGORIES
+                ABOUT
               </h2>
               <nav className="list-none mb-10">
                 <li>
@@ -111,7 +135,7 @@ const Footer = () => {
         <div className="bg-black bg-opacity-75 border-t border-gray-800">
           <div className="container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row">
             <p className="text-white text-xl text-center sm:text-left">
-              © 2025 CodeSwear
+              © 2025 CodeSwear — All rights reserved
             </p>
             <span className="inline-flex sm:ml-auto sm:mt-0 mt-2 justify-center sm:justify-start">
               <a className="text-white">

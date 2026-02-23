@@ -1,27 +1,319 @@
-# POST http://localhost:4200/api/updateproducts
-# Content-Type: application/json
-# Accept: application/json
-
-# [
-#     {
-#       "_id": "696531bf526f9586ff39e7c0",
-#       "name": "Hoodie",
-#       "slug": "wear-the-code-hoodie-dark-green2with5",
-#       "desc": "ohhhh",
-#       "img": "fdssdf",
-#       "category": "hoodie",
-#       "size": "sm",
-#       "color": "Green",
-#       "price": 699,
-#       "availableQty": 5,
-#       "__v": 0
-#     }
-
-# ]
-
 # GET http://localhost:4200/api/getproducts
 # Content-Type: application/json
 # Accept: application/json
+
+
+
+POST http://localhost:4200/api/updateproducts
+Content-Type: application/json
+Accept: application/json
+
+
+[
+  {
+    "_id": "699475272b97159b0fa54a05",
+    "name": "Wear The Code Tshirt",
+    "slug": "wear-the-code-tshirt-dark-blue98796",
+    "desc": "tbhgf",
+    "img": "https://m.media-amazon.com/images/I/513B+Ewg8QL._SY741_.jpg",
+    "category": "tshirt",
+    "size": "XXL",
+    "color": "Pink",
+    "price": 799,
+    "availableQty": 5
+  },
+  {
+    "_id": "699475272b97159b0fa54a07",
+    "name": "Wear The Code Tshirt",
+    "slug": "wear-the-code-tshirt-dark-blue3325641",
+    "desc": "tbhgf",
+    "img": "https://m.media-amazon.com/images/I/513B+Ewg8QL._SY741_.jpg",
+    "category": "tshirt",
+    "size": "L",
+    "color": "Pink",
+    "price": 799,
+    "availableQty": 5
+  },
+  {
+    "_id": "699475272b97159b0fa54a09",
+    "name": "Wear The Code Tshirt",
+    "slug": "wear-the-code-tshirt-dark-blue3456789123654",
+    "desc": "tbhgf",
+    "img": "https://m.media-amazon.com/images/I/51HEHE5tnJL._SY741_.jpg",
+    "category": "tshirt",
+    "size": "M",
+    "color": "Off White",
+    "price": 799,
+    "availableQty": 5
+  },
+  {
+    "_id": "69948ca82b97159b0fa54b56",
+    "name": "Wear The Code Tshirt",
+    "slug": "wear-the-code-tshirt-dark-blue157white",
+    "desc": "tbhgf",
+    "img": "https://m.media-amazon.com/images/I/515C3pFl3aL._SY741_.jpg",
+    "category": "tshirt",
+    "size": "S",
+    "color": "Dark Green",
+    "price": 799,
+    "availableQty": 5
+  },
+  {
+    "_id": "69948cc62b97159b0fa54b60",
+    "name": "Wear The Code Tshirt",
+    "slug": "wear-the-code-tshirt-dark-blue157whiteso",
+    "desc": "tbhgf",
+    "img": "https://m.media-amazon.com/images/I/61F5++FEwjL._SL1500_.jpg",
+    "category": "tshirt",
+    "size": "S",
+    "color": "Dark Blue",
+    "price": 799,
+    "availableQty": 5
+  },
+  {
+  "_id": "69945b9dd2d35461a4cd3f78",
+  "name": "Wear The Code Tshirt",
+  "slug": "wear-the-code-tshirt-dark-blue12",
+  "desc": "tbhgf",
+  "img": "https://m.media-amazon.com/images/I/51UHHdFyHqL._SY741_.jpg",
+  "category": "tshirt",
+  "size": "XL",
+  "color": "Light Blue",
+  "price": 799,
+  "availableQty": 5
+  
+},
+{
+  "_id": "69945bccd2d35461a4cd3f7a",
+  "name": "Wear The Code Tshirt",
+  "slug": "wear-the-code-tshirt-dark-blue1",
+  "desc": "tbhgf",
+  "img": "https://m.media-amazon.com/images/I/513B+Ewg8QL._SY741_.jpg",
+  "category": "tshirt",
+  "size": "XS",
+  "color": "Pink",
+  "price": 799,
+  "availableQty": 5
+  
+},
+{
+  "_id": "69945bccd2d35461a4cd3f7c",
+  "name": "Wear The Code Tshirt",
+  "slug": "wear-the-code-tshirt-dark-blue2",
+  "desc": "tbhgf",
+  "img": "https://m.media-amazon.com/images/I/51HEHE5tnJL._SY741_.jpg",
+  "category": "tshirt",
+  "size": "S",
+  "color": "White",
+  "price": 799,
+  "availableQty": 1
+  
+},
+{
+  "_id": "69945bccd2d35461a4cd3f7e",
+  "name": "Wear The Code Tshirt",
+  "slug": "wear-the-code-tshirt-dark-blue3",
+  "desc": "tbhgf",
+  "img": "https://m.media-amazon.com/images/I/51UHHdFyHqL._SY741_.jpg",
+  "category": "tshirt",
+  "size": "XXL",
+  "color": "Blue",
+  "price": 799,
+  "availableQty": 5
+  
+},
+{
+  "_id": "699475272b97159b0fa549f9",
+  "name": "Wear The Code Tshirt",
+  "slug": "wear-the-code-tshirt-dark-blue157",
+  "desc": "tbhgf",
+  "img": "https://m.media-amazon.com/images/I/515C3pFl3aL._SY741_.jpg",
+  "category": "tshirt",
+  "size": "S",
+  "color": "Dark Green",
+  "price": 799,
+  "availableQty": 5
+  
+},
+{
+  "_id": "699475272b97159b0fa549fb",
+  "name": "Wear The Code Tshirt",
+  "slug": "wear-the-code-tshirt-dark-blue265",
+  "desc": "tbhgf",
+  "img": "https://m.media-amazon.com/images/I/51UHHdFyHqL._SY741_.jpg",
+  "category": "tshirt",
+  "size": "M",
+  "color": "Light Blue",
+  "price": 799,
+  "availableQty": 5
+  
+},
+{
+  "_id": "699475272b97159b0fa549fd",
+  "name": "Wear The Code Tshirt",
+  "slug": "wear-the-code-tshirt-dark-blue365",
+  "desc": "tbhgf",
+  "img": "https://m.media-amazon.com/images/I/61F5++FEwjL._SL1500_.jpg",
+  "category": "tshirt",
+  "size": "XL",
+  "color": "Dark Blue",
+  "price": 799,
+  "availableQty": 5
+  
+},
+{
+  "_id": "699475272b97159b0fa549ff",
+  "name": "Wear The Code Tshirt",
+  "slug": "wear-the-code-tshirt-dark-blue3987",
+  "desc": "tbhgf",
+  "img": "https://m.media-amazon.com/images/I/61F5++FEwjL._SL1500_.jpg",
+  "category": "tshirt",
+  "size": "XXL",
+  "color": "Dark Blue",
+  "price": 799,
+  "availableQty": 5
+  
+},
+{
+  "_id": "699475272b97159b0fa54a01",
+  "name": "Wear The Code Tshirt",
+  "slug": "wear-the-code-tshirt-dark-blue397456",
+  "desc": "tbhgf",
+  "img": "https://m.media-amazon.com/images/I/518v6ZWbv7L._SY741_.jpg",
+  "category": "tshirt",
+  "size": "L",
+  "color": "Red",
+  "price": 799,
+  "availableQty": 5
+  
+},
+{
+  "_id": "699475272b97159b0fa54a03",
+  "name": "Wear The Code Tshirt",
+  "slug": "wear-the-code-tshirt-dark-blue356324",
+  "desc": "tbhgf",
+  "img": "https://m.media-amazon.com/images/I/518v6ZWbv7L._SY741_.jpg",
+  "category": "tshirt",
+  "size": "XXL",
+  "color": "Red",
+  "price": 799,
+  "availableQty": 5
+  
+}
+
+]
+
+
+
+# [
+#     {
+#   "_id":  "696531bf526f9586ff39e7c0",
+#   "name": "Wear The Code Tshirt Dark Blue",
+#   "slug": "wear-the-code-tshirt-dark-blue",
+#   "desc": "ohhhh",
+#   "img": "https://m.media-amazon.com/images/I/51xOEh5DKYL._SY741_.jpg",
+#   "category": "tshirt",
+#   "size": "M",
+#   "color": "Dark Blue",
+#   "price": 799,
+#   "availableQty": 5,
+#   "__v": 0
+# },
+# {
+#   "_id":  "697c944604b8bd5824e36da1",
+#   "name": "Wear The Code Tshirt Light Blue",
+#   "slug": "wear-the-code-tshirt-light-blue",
+#   "desc": "ohhhh",
+#   "img": "https://m.media-amazon.com/images/I/51UHHdFyHqL._SY741_.jpg",
+#   "category": "tshirt",
+#   "size": "SM",
+#   "color": "Light Blue",
+#   "price": 799,
+#   "availableQty": 5,
+#   "__v": 0
+# },
+# {
+#   "_id":  "697c948304b8bd5824e36da3",
+#   "name": "Wear The Code Tshirt Black",
+#   "slug": "wear-the-code-tshirt-black",
+#   "desc": "tbhgf",
+#   "img": "https://m.media-amazon.com/images/I/51SCS4jtHjL._SY741_.jpg",
+#   "category": "tshirt",
+#   "size": "XL",
+#   "color": "Black",
+#   "price": 799,
+#   "availableQty": 5,
+#   "__v": 0
+# },
+# {
+#   "_id":  "697c948304b8bd5824e36da5",
+#   "name": "Wear The Code Tshirt Off White",
+#   "slug": "wear-the-code-tshirt-off-white",
+#   "desc": "ohhhh",
+#   "img": "https://m.media-amazon.com/images/I/51HEHE5tnJL._SY741_.jpg",
+#   "category": "tshirt",
+#   "size": "S",
+#   "color": "White",
+#   "price": 799,
+#   "availableQty": 5,
+#   "__v": 0
+# },
+# {
+#   "_id":  "697c948304b8bd5824e36da7",
+#   "name": "Wear The Code Tshirt Dark Green",
+#   "slug": "wear-the-code-tshirt-dark-green",
+#   "desc": "ohhhh",
+#   "img": "https://m.media-amazon.com/images/I/515C3pFl3aL._SY741_.jpg",
+#   "category": "tshirt",
+#   "size": "SM",
+#   "color": "Dark Green",
+#   "price": 799,
+#   "availableQty": 5,
+#   "__v": 0
+# },
+# {
+#   "_id":  "697c948304b8bd5824e36da9",
+#   "name": "Wear The Code Tshirt Red",
+#   "slug": "wear-the-code-tshirt-red",
+#   "desc": "ohhhh",
+#   "img": "https://m.media-amazon.com/images/I/518v6ZWbv7L._SY741_.jpg",
+#   "category": "tshirt",
+#   "size": "SM",
+#   "color": "Red",
+#   "price": 799,
+#   "availableQty": 5,
+#   "__v": 0
+# },
+# {
+#   "_id":  "697c948304b8bd5824e36dab",
+#   "name": "Wear The Code Tshirt Pink",
+#   "slug": "wear-the-code-tshirt-pink",
+#   "desc": "ohhhh",
+#   "img": "https://m.media-amazon.com/images/I/513B+Ewg8QL._SY741_.jpg",
+#   "category": "tshirt",
+#   "size": "SM",
+#   "color": "Pink",
+#   "price": 799,
+#   "availableQty": 5,
+#   "__v": 0
+# },
+# {
+#   "_id":  "697c948304b8bd5824e36dad",
+#   "name": "Wear The Code Tshirt Yellow",
+#   "slug": "wear-the-code-tshirt-yellow",
+#   "desc": "ohhhh",
+#   "img": "https://m.media-amazon.com/images/I/61bthgvc6VL._SY741_.jpg",
+#   "category": "tshirt",
+#   "size": "SM",
+#   "color": "Yellow",
+#   "price": 799,
+#   "availableQty": 5,
+#   "__v": 0
+# }
+# ]
+
+# }
+
 
 
 
@@ -29,26 +321,145 @@
 # POST http://localhost:4200/api/addproducts
 # Content-Type: application/json
 # Accept: application/json
-# [{
-#   "name": "Hoodie",
-#   "slug": "wear-the-code-hoodie-darkggreenwith5",
-#   "desc": "tbhgf",
-#   "img": "fdssdf",
-#   "category": "hoodie",
-#   "size": "XL",
-#   "color": "Green",
-#   "price": 599,
-#   "availableQty": 6
+
+# [
+#   {
+#     "name": "Wear The Code Tshirt Dark Blue",
+#     "slug": "wear-the-code-tshirt-dark-blue157whiteso",
+#     "desc": "tbhgf",
+#     "img": "https://m.media-amazon.com/images/I/61F5++FEwjL._SL1500_.jpg",
+#     "category": "tshirt",
+#     "size": "S",
+#     "color": "Dark Blue",
+#     "price": 799,
+#     "availableQty": 5
+#   } 
+# ]
+
+#   ,
+#   {
+#     "name": "Wear The Code Tshirt Dark Blue",
+#     "slug": "wear-the-code-tshirt-dark-blue265",
+#     "desc": "tbhgf",
+#     "img": "https://m.media-amazon.com/images/I/61F5++FEwjL._SL1500_.jpg",
+#     "category": "tshirt",
+#     "size": "M",
+#     "color": "Light Blue",
+#     "price": 799,
+#     "availableQty": 5
+#   },
+#   {
+#     "name": "Wear The Code Tshirt Dark Blue",
+#     "slug": "wear-the-code-tshirt-dark-blue365",
+#     "desc": "tbhgf",
+#     "img": "https://m.media-amazon.com/images/I/61F5++FEwjL._SL1500_.jpg",
+#     "category": "tshirt",
+#     "size": "XL",
+#     "color": "Dark Blue",
+#     "price": 799,
+#     "availableQty": 5
+#   },
+#   {
+#     "name": "Wear The Code Tshirt Dark Blue",
+#     "slug": "wear-the-code-tshirt-dark-blue3987",
+#     "desc": "tbhgf",
+#     "img": "https://m.media-amazon.com/images/I/61F5++FEwjL._SL1500_.jpg",
+#     "category": "tshirt",
+#     "size": "XXL",
+#     "color": "Dark Blue",
+#     "price": 799,
+#     "availableQty": 5
+#   },
+#   {
+#     "name": "Wear The Code Tshirt Dark Blue",
+#     "slug": "wear-the-code-tshirt-dark-blue397456",
+#     "desc": "tbhgf",
+#     "img": "https://m.media-amazon.com/images/I/61F5++FEwjL._SL1500_.jpg",
+#     "category": "tshirt",
+#     "size": "L",
+#     "color": "Red",
+#     "price": 799,
+#     "availableQty": 5
+#   },
+#   {
+#     "name": "Wear The Code Tshirt Dark Blue",
+#     "slug": "wear-the-code-tshirt-dark-blue356324",
+#     "desc": "tbhgf",
+#     "img": "https://m.media-amazon.com/images/I/61F5++FEwjL._SL1500_.jpg",
+#     "category": "tshirt",
+#     "size": "XXL",
+#     "color": "Red",
+#     "price": 799,
+#     "availableQty": 5
+#   },
+#   {
+#     "name": "Wear The Code Tshirt Dark Blue",
+#     "slug": "wear-the-code-tshirt-dark-blue98796",
+#     "desc": "tbhgf",
+#     "img": "https://m.media-amazon.com/images/I/61F5++FEwjL._SL1500_.jpg",
+#     "category": "tshirt",
+#     "size": "XXL",
+#     "color": "Pink",
+#     "price": 799,
+#     "availableQty": 5
+#   },
+#   {
+#     "name": "Wear The Code Tshirt Dark Blue",
+#     "slug": "wear-the-code-tshirt-dark-blue3325641",
+#     "desc": "tbhgf",
+#     "img": "https://m.media-amazon.com/images/I/61F5++FEwjL._SL1500_.jpg",
+#     "category": "tshirt",
+#     "size": "L",
+#     "color": "Pink",
+#     "price": 799,
+#     "availableQty": 5
+#   },
+#   {
+#     "name": "Wear The Code Tshirt Dark Blue",
+#     "slug": "wear-the-code-tshirt-dark-blue3456789123654",
+#     "desc": "tbhgf",
+#     "img": "https://m.media-amazon.com/images/I/61F5++FEwjL._SL1500_.jpg",
+#     "category": "tshirt",
+#     "size": "M",
+#     "color": "Off White",
+#     "price": 799,
+#     "availableQty": 5
+#   }
+# ]
+
+
+# ,
+# {
+#   "name": "Wear The Code Tshirt Red",
+#   "slug": "wear-the-code-tshirt-red",
+#   "desc": "ohhhh",
+#   "img": "https://m.media-amazon.com/images/I/518v6ZWbv7L._SY741_.jpg",
+#   "category": "Tshirt",
+#   "size": "SM",
+#   "color": "Red",
+#   "price": 799,
+#   "availableQty": 5
 # },
 # {
-#   "name": "Hoodie 2",
-#   "slug": "wear-the-code-hoodietdark-greenwitsm",
-#   "desc": "tbhgf",
-#   "img": "fdssdf",
-#   "category": "hoodie",
+#   "name": "Wear The Code Tshirt Pink",
+#   "slug": "wear-the-code-tshirt-pink",
+#   "desc": "ohhhh",
+#   "img": "https://m.media-amazon.com/images/I/513B+Ewg8QL._SY741_.jpg",
+#   "category": "Tshirt",
 #   "size": "SM",
-#   "color": "Green",
-#   "price": 599,
+#   "color": "Pink",
+#   "price": 799,
+#   "availableQty": 5
+# },
+# {
+#   "name": "Wear The Code Tshirt Yellow",
+#   "slug": "wear-the-code-tshirt-yellow",
+#   "desc": "ohhhh",
+#   "img": "https://m.media-amazon.com/images/I/61bthgvc6VL._SY741_.jpg",
+#   "category": "Tshirt",
+#   "size": "SM",
+#   "color": "Yellow",
+#   "price": 799,
 #   "availableQty": 5
 # }
 # ]

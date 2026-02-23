@@ -34,8 +34,12 @@ const Navbar = ({ cart, addToCart, removeFromCart, clearCart, subTotal }) => {
   //   }));
   // };
 
-  // Calculate total items
-  // const totalItems = Object.values(cart).reduce((sum, qty) => sum + qty, 0);
+  // Calculate total items (sum each cart item's `qty`)
+  const totalItems = Object.keys(cart || {}).reduce((sum, key) => {
+    const item = cart[key];
+    const qty = (item && item.qty) || 0;
+    return sum + qty;
+  }, 0);
 
   return (
     <div>
@@ -79,9 +83,11 @@ const Navbar = ({ cart, addToCart, removeFromCart, clearCart, subTotal }) => {
                   onClick={ToggleCart}
                   className="hover:text-blue-800 text-5xl lg:text-7xl xl:text-6xl cursor-pointer"
                 />
-                {/* <span className="absolute -top-1 -right-1  bg-blue-600 text-white text-2xl rounded-full h-9 xl:h-7 w-9 xl:w-7 flex items-center justify-center">
-                  {totalItems} 
-                </span> */}
+                {totalItems > 0 && (
+                  <span className="absolute -top-1 -right-1  bg-blue-600 text-white lg:text-2xl rounded-full h-7  xl:h-8 w-7  xl:w-8 flex items-center text-xl justify-center">
+                    {totalItems}
+                  </span>
+                )}
                 {/* small triangle under the cart (points down) */}
                 {/* <div className="absolute left-1/2 transform -translate-x-1/2 top-full mt-1 w-0 h-0 border-l-15 border-r-15 border-b-15 border-l-transparent border-r-transparent border-b-gray-900 pointer-events-none"></div> */}
               </button>
@@ -106,7 +112,7 @@ const Navbar = ({ cart, addToCart, removeFromCart, clearCart, subTotal }) => {
                   return (
                     <li key={k} className="flex items-center my-2">
                       <span className="w-5/6 break-words overflow-hidden">
-                        {cart[k].name} {cart[k].size} ({cart[k].variant})
+                        {cart[k].name} ({cart[k].size}/{cart[k].variant})
                       </span>
                       {/* <span className="w-3/5 break-words overflow-hidden">
                          Green Hoodie - SM Green
@@ -119,7 +125,7 @@ const Navbar = ({ cart, addToCart, removeFromCart, clearCart, subTotal }) => {
                             cart[k].price,
                             cart[k].name,
                             cart[k].size,
-                            cart[k].variant
+                            cart[k].variant,
                           );
                         }}
                         className="text-4xl ml-4 cursor-pointer hover:text-red-400 flex-shrink-0"
@@ -133,7 +139,7 @@ const Navbar = ({ cart, addToCart, removeFromCart, clearCart, subTotal }) => {
                             cart[k].price,
                             cart[k].name,
                             cart[k].size,
-                            cart[k].variant
+                            cart[k].variant,
                           );
                         }}
                         className="text-4xl cursor-pointer hover:text-green-400 flex-shrink-0"

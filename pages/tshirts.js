@@ -1,185 +1,144 @@
 import Link from "next/link";
 import React from "react";
+import Product from "../models/Product";
+import mongoose from "mongoose";
 
-const Tshirts = () => {
+const Tshirts = ({ products }) => {
   return (
     <div>
       <section className="text-gray-600 body-font text-2xl lg:mt-35 xl:mt-25 mt-42">
         <div className="container px-4 py-20 mx-auto">
           <div className="flex flex-wrap justify-center ">
-            <div className="lg:w-1/5 md:w-1/2 p-4 w-full shadow-[0_4px_8px_0_rgba(0,0,0,0.2)] hover:shadow-[0_10px_20px_0_rgba(0,0,0,0.2)] transition-shadow duration-800] lg:m-5">
-              <Link href="/product/wear-the-code-tshirt-dark-blue">
-                <a className="block relative h-auto rounded overflow-hidden">
-                  <img
-                    alt="ecommerce"
-                    className="w-auto h-[400px] lg:h-[300px] block m-auto lg:mx-0"
-                    src="https://m.media-amazon.com/images/I/51xOEh5DKYL._SY741_.jpg"
-                  />
-                </a>
-                <div className="mt-4 text-center lg:text-left">
-                  <h3 className="text-gray-500 text-lg tracking-widest title-font mb-1">
-                    T-Shirts
-                  </h3>
-                  <h2 className="text-gray-900 title-font text-2xl font-medium">
-                    Wear the Code
-                  </h2>
-                  <p className="mt-1">₹799.00</p>
-                  <p className="mt-1 text-gray-500">S, M, L, XL, XXL</p>
+            {Object.keys(products).map((item) => {
+              return (
+                <div
+                  key={products[item]._id}
+                  className="lg:w-1/5 md:w-1/2 p-4 w-full shadow-[0_4px_8px_0_rgba(0,0,0,0.2)] hover:shadow-[0_10px_20px_0_rgba(0,0,0,0.2)] transition-shadow duration-800] lg:m-5"
+                >
+                  <Link
+                    // href="/product/wear-the-code-tshirt-dark-blue"
+                    passHref={true}
+                    href={`/product/${products[item].slug}`}
+                    className="block relative h-auto rounded overflow-hidden"
+                  >
+                    <img
+                      alt="ecommerce"
+                      className="w-auto h-[400px] lg:h-[300px] block m-auto lg:mx-0"
+                      src={`${products[item].img}`}
+                    />
+                    <div className="mt-4 text-center lg:text-left">
+                      <h3 className="text-gray-500 text-lg tracking-widest title-font mb-1">
+                        {products[item].category}
+                      </h3>
+                      <h2 className="text-gray-900 title-font text-2xl font-medium">
+                        {products[item].name}
+                      </h2>
+                      <p className="mt-1">₹{products[item].price}</p>
+                      <div className="mt-1 text-gray-500">
+                        {products[item].size.includes("XS") && (
+                          <span className="border px-1 mx-1 text-center border-gray-400">
+                            XS
+                          </span>
+                        )}
+                        {products[item].size.includes("S") && (
+                          <span className="border px-1 mx-1 text-center border-gray-400">
+                            S
+                          </span>
+                        )}
+                        {products[item].size.includes("M") && (
+                          <span className="border px-1 mx-1 text-center border-gray-400">
+                            M
+                          </span>
+                        )}
+                        {products[item].size.includes("L") && (
+                          <span className="border px-1 mx-1 text-center border-gray-400">
+                            L
+                          </span>
+                        )}
+                        {products[item].size.includes("XL") && (
+                          <span className="border px-1 mx-1 text-center border-gray-400">
+                            XL
+                          </span>
+                        )}
+                        {products[item].size.includes("XXL") && (
+                          <span className="border px-1 mx-1 text-center border-gray-400">
+                            XXL
+                          </span>
+                        )}
+                      </div>
+                      <div className="mt-1 text-gray-500">
+                        {products[item].color.includes("Dark Blue") && (
+                          <button className="border-2 border-gray-300 ml-1 bg-[#2d415e] rounded-full w-7 h-7 focus:outline-none"></button>
+                        )}
+                        {products[item].color.includes("Light Blue") && (
+                          <button className="border-2 border-gray-300 ml-1 bg-blue-400 rounded-full w-7 h-7 focus:outline-none"></button>
+                        )}
+                        {products[item].color.includes("Pink") && (
+                          <button className="border-2 border-gray-300 ml-1 bg-[#eb4657] rounded-full w-7 h-7 focus:outline-none"></button>
+                        )}
+                        {products[item].color.includes("White") && (
+                          <button className="border-2 border-gray-300 ml-1 bg-white rounded-full w-7 h-7 focus:outline-none"></button>
+                        )}
+                        {products[item].color.includes("Blue") && (
+                          <button className="border-2 border-gray-300 ml-1 bg-blue-500 rounded-full w-7 h-7 focus:outline-none"></button>
+                        )}
+                        {products[item].color.includes("Red") && (
+                          <button className="border-2 border-gray-300 ml-1 bg-red-600 rounded-full w-7 h-7 focus:outline-none"></button>
+                        )}
+                        {products[item].color.includes("Dark Green") && (
+                          <button className="border-2 border-gray-300 ml-1 bg-[#657537] rounded-full w-7 h-7 focus:outline-none"></button>
+                        )}
+                        {products[item].color.includes("Black") && (
+                          <button className="border-2 border-gray-300 ml-1 bg-black rounded-full w-7 h-7 focus:outline-none"></button>
+                        )}
+                        {products[item].color.includes("Off White") && (
+                          <button className="border-2 border-gray-300 ml-1 bg-[#f3eccc] rounded-full w-7 h-7 focus:outline-none"></button>
+                        )}
+                        {products[item].color.includes("Yellow") && (
+                          <button className="border-2 border-gray-300 ml-1 bg-[#fdda64] rounded-full w-7 h-7 focus:outline-none"></button>
+                        )}
+                      </div>
+                    </div>
+                  </Link>
                 </div>
-              </Link>
-            </div>
-            <div className="lg:w-1/5 md:w-1/2 p-4 w-full shadow-[0_4px_8px_0_rgba(0,0,0,0.2)] hover:shadow-[0_10px_20px_0_rgba(0,0,0,0.2)] transition-shadow duration-800] lg:mx-5 lg:my-5">
-              <Link href="/product/wear-the-code-tshirt-light-blue">
-                <a className="block relative h-auto rounded overflow-hidden">
-                  <img
-                    alt="ecommerce"
-                    className="w-auto h-[400px] lg:h-[300px] block m-auto lg:mx-0"
-                    src="https://m.media-amazon.com/images/I/51UHHdFyHqL._SY741_.jpg"
-                  />
-                </a>
-                <div className="mt-4 text-center lg:text-left">
-                  <h3 className="text-gray-500 text-lg tracking-widest title-font mb-1">
-                    T-Shirts
-                  </h3>
-                  <h2 className="text-gray-900 title-font text-2xl font-medium">
-                    Wear the Code
-                  </h2>
-                  <p className="mt-1">₹799.00</p>
-                  <p className="mt-1 text-gray-500">S, M, L, XL, XXL</p>
-                </div>
-              </Link>
-            </div>
-            <div className="lg:w-1/5 md:w-1/2 p-4 w-full shadow-[0_4px_8px_0_rgba(0,0,0,0.2)] hover:shadow-[0_10px_20px_0_rgba(0,0,0,0.2)] transition-shadow duration-800] lg:mx-5 lg:my-5">
-              <Link href="/product/wear-the-code-tshirt-black">
-                <a className="block relative h-auto rounded overflow-hidden">
-                  <img
-                    alt="ecommerce"
-                    className="w-auto h-[400px] lg:h-[300px] block m-auto lg:mx-0"
-                    src="https://m.media-amazon.com/images/I/51SCS4jtHjL._SY741_.jpg"
-                  />
-                </a>
-                <div className="mt-4 text-center lg:text-left">
-                  <h3 className="text-gray-500 text-lg tracking-widest title-font mb-1">
-                    T-Shirts
-                  </h3>
-                  <h2 className="text-gray-900 title-font text-2xl font-medium">
-                    Wear the Code
-                  </h2>
-                  <p className="mt-1">₹799.00</p>
-                  <p className="mt-1 text-gray-500">S, M, L, XL, XXL</p>
-                </div>
-              </Link>
-            </div>
-            <div className="lg:w-1/5 md:w-1/2 p-4 w-full shadow-[0_4px_8px_0_rgba(0,0,0,0.2)] hover:shadow-[0_10px_20px_0_rgba(0,0,0,0.2)] transition-shadow duration-800] lg:mx-5 lg:my-5">
-              <Link href="/product/wear-the-code-tshirt-off-white">
-                <a className="block relative h-auto rounded overflow-hidden">
-                  <img
-                    alt="ecommerce"
-                    className="w-auto h-[400px] lg:h-[300px] block m-auto lg:mx-0"
-                    src="https://m.media-amazon.com/images/I/51HEHE5tnJL._SY741_.jpg"
-                  />
-                </a>
-                <div className="mt-4 text-center lg:text-left">
-                  <h3 className="text-gray-500 text-lg tracking-widest title-font mb-1">
-                    T-Shirts
-                  </h3>
-                  <h2 className="text-gray-900 title-font text-2xl font-medium">
-                    Wear the Code
-                  </h2>
-                  <p className="mt-1">₹799.00</p>
-                  <p className="mt-1 text-gray-500">S, M, L, XL, XXL</p>
-                </div>
-              </Link>
-            </div>
-            <div className="lg:w-1/5 md:w-1/2 p-4 w-full shadow-[0_4px_8px_0_rgba(0,0,0,0.2)] hover:shadow-[0_10px_20px_0_rgba(0,0,0,0.2)] transition-shadow duration-800] lg:mx-5 lg:my-5">
-              <Link href="/product/wear-the-code-tshirt-dark-green">
-                <a className="block relative h-auto rounded overflow-hidden">
-                  <img
-                    alt="ecommerce"
-                    className="w-auto h-[400px] lg:h-[300px] block m-auto lg:mx-0"
-                    src="https://m.media-amazon.com/images/I/515C3pFl3aL._SY741_.jpg"
-                  />
-                </a>
-                <div className="mt-4 text-center lg:text-left">
-                  <h3 className="text-gray-500 text-lg tracking-widest title-font mb-1">
-                    T-Shirts
-                  </h3>
-                  <h2 className="text-gray-900 title-font text-2xl font-medium">
-                    Wear the Code
-                  </h2>
-                  <p className="mt-1">₹799.00</p>
-                  <p className="mt-1 text-gray-500">S, M, L, XL, XXL</p>
-                </div>
-              </Link>
-            </div>
-            <div className="lg:w-1/5 md:w-1/2 p-4 w-full shadow-[0_4px_8px_0_rgba(0,0,0,0.2)] hover:shadow-[0_10px_20px_0_rgba(0,0,0,0.2)] transition-shadow duration-800] lg:mx-5 lg:my-5">
-              <Link href="/product/wear-the-code-tshirt-red">
-                <a className="block relative h-auto rounded overflow-hidden">
-                  <img
-                    alt="ecommerce"
-                    className="w-auto h-[400px] lg:h-[300px] block m-auto lg:mx-0"
-                    src="https://m.media-amazon.com/images/I/518v6ZWbv7L._SY741_.jpg"
-                  />
-                </a>
-                <div className="mt-4 text-center lg:text-left">
-                  <h3 className="text-gray-500 text-lg tracking-widest title-font mb-1">
-                    T-Shirts
-                  </h3>
-                  <h2 className="text-gray-900 title-font text-2xl font-medium">
-                    Wear the Code
-                  </h2>
-                  <p className="mt-1">₹799.00</p>
-                  <p className="mt-1 text-gray-500">S, M, L, XL, XXL</p>
-                </div>
-              </Link>
-            </div>
-            <div className="lg:w-1/5 md:w-1/2 p-4 w-full shadow-[0_4px_8px_0_rgba(0,0,0,0.2)] hover:shadow-[0_10px_20px_0_rgba(0,0,0,0.2)] transition-shadow duration-800] lg:mx-5 lg:my-5">
-              <Link href="/product/wear-the-code-tshirt-pink">
-                <a className="block relative h-auto rounded overflow-hidden">
-                  <img
-                    alt="ecommerce"
-                    className="w-auto h-[400px] lg:h-[300px] block m-auto lg:mx-0"
-                    src="https://m.media-amazon.com/images/I/513B+Ewg8QL._SY741_.jpg"
-                  />
-                </a>
-                <div className="mt-4 text-center lg:text-left">
-                  <h3 className="text-gray-500 text-lg tracking-widest title-font mb-1">
-                    T-Shirts
-                  </h3>
-                  <h2 className="text-gray-900 title-font text-2xl font-medium">
-                    Wear the Code
-                  </h2>
-                  <p className="mt-1 text-gray-500">₹799.00</p>
-                  <p className="mt-1 text-gray-500">S, M, L, XL, XXL</p>
-                </div>
-              </Link>
-            </div>
-            <div className="lg:w-1/5 md:w-1/2 p-4 w-full shadow-[0_4px_8px_0_rgba(0,0,0,0.2)] hover:shadow-[0_10px_20px_0_rgba(0,0,0,0.2)] transition-shadow duration-800] lg:mx-5 lg:my-5">
-              <Link href="/product/wear-the-code-tshirt-yellow">
-                <a className="block relative rounded overflow-hidden">
-                  <img
-                    alt="ecommerce"
-                    className=" w-auto h-[400px] lg:h-[300px] block m-auto lg:mx-0"
-                    src="https://m.media-amazon.com/images/I/61bthgvc6VL._SY741_.jpg"
-                  />
-                </a>
-                <div className="mt-4 text-center lg:text-left">
-                  <h3 className="text-gray-500 text-lg tracking-widest title-font mb-1">
-                    T-Shirts
-                  </h3>
-                  <h2 className="text-gray-900 title-font text-2xl font-medium">
-                    Wear the Code
-                    <p className="mt-1 text-gray-500">₹799.00</p>
-                    <p className="mt-1 text-gray-500">S, M, L, XL, XXL</p>
-                  </h2>
-                </div>
-              </Link>
-            </div>
+              );
+            })}
           </div>
         </div>
       </section>
     </div>
   );
 };
+
+export async function getServerSideProps() {
+  if (!mongoose.connections[0].readyState) {
+    await mongoose.connect(process.env.MONGO_URI);
+  }
+  let products = await Product.find({ category: "tshirt" });
+  let tshirts = {};
+  for (let item of products) {
+    if (item.name in tshirts) {
+      if (
+        !tshirts[item.name].color.includes(item.color) &&
+        item.availableQty > 0
+      ) {
+        tshirts[item.name].color.push(item.color);
+      }
+      if (
+        !tshirts[item.name].size.includes(item.size) &&
+        item.availableQty > 0
+      ) {
+        tshirts[item.name].size.push(item.size);
+      }
+    } else {
+      tshirts[item.name] = JSON.parse(JSON.stringify(item));
+      tshirts[item.name].color = item.availableQty > 0 ? [item.color] : [];
+      tshirts[item.name].size = item.availableQty > 0 ? [item.size] : [];
+    }
+  }
+  return {
+    props: { products: JSON.parse(JSON.stringify(tshirts)) }, // will be passed to the page component as props
+  };
+}
 
 export default Tshirts;
