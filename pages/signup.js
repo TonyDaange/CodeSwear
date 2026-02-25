@@ -2,8 +2,10 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/router";
 
 const Signup = () => {
+  const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -32,6 +34,9 @@ const Signup = () => {
       draggable: true,
       theme: "dark",
     });
+    setTimeout(() => {
+      router.push("/");
+    }, 3000); 
   };
   const handleChange = (e) => {
     if (e.target.name == "name") {
