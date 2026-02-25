@@ -1,6 +1,6 @@
 # Codeswear — Next.js E-commerce
 
-Minimal, production-ready e-commerce storefront built with Next.js.
+Minimal, Now it is not production-ready but e-commerce storefront built with Next.js.
 
 ## Overview
 This repository contains a Next.js application for an online store (product listing, cart, checkout, order history). It is intended as a starting point for building features like product management, authentication, and payment integration.
