@@ -1,7 +1,60 @@
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import { useRouter } from "next/router";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const data = { email, password };
+    let res = await fetch("/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    let response = await res.json();
+    console.log(response);
+    setEmail("");
+    setPassword("");
+    if (response.success) {
+      toast.success("Logged in successfully!", {
+        position: "top-left",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+      });
+      setTimeout(() => {
+        router.push("/");
+      }, 3000); 
+    } else {
+      toast.error(response.error, {
+        position: "top-left",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+      });
+    }
+  };
+  const handleChange = (e) => {
+    if (e.target.name == "email") {
+      setEmail(e.target.value);
+    } else if (e.target.name == "password") {
+      setPassword(e.target.value);
+    }
+  };
   return (
     <div className="lg:mt-35 xl:mt-25 mt-42">
       <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 text-2xl">
@@ -26,10 +79,11 @@ const Login = () => {
         </div>
 
         <div className="mt-10 mx-auto w-full max-w-lg">
-          <form action="#" method="POST">
+          <form onSubmit={handleSubmit} method="POST">
             <div>
               <div className="mt-2">
                 <input
+                  onChange={handleChange}
                   id="email"
                   name="email"
                   type="email"
@@ -41,6 +95,7 @@ const Login = () => {
               </div>
               <div className="mt-0">
                 <input
+                  onChange={handleChange}
                   id="password"
                   name="password"
                   type="password"
@@ -99,6 +154,13 @@ const Login = () => {
                 Log in
               </button>
             </div>
+            <ToastContainer
+              bodyClassName="font-mono"
+              newestOnTop
+              rtl={false}
+              pauseOnFocusLoss
+              limit={1}
+            />
           </form>
         </div>
       </div>

@@ -12,7 +12,7 @@ const ProductPage = ({ buyNow, addToCart, product, variant }) => {
   const [pin, setPin] = useState();
   const [service, setService] = useState();
   const checkServiceability = async () => {
-    const pins = await fetch("http://localhost:4200/api/pincode");
+    const pins = await fetch("/api/pincode");
 
     const pincodes = await pins.json();
     if (pincodes.includes(parseInt(pin))) {
@@ -124,8 +124,8 @@ const ProductPage = ({ buyNow, addToCart, product, variant }) => {
               CODESWEAR
             </h2>
             <h1 className="text-gray-900 text-4xl title-font font-medium mb-1">
-              {(currentProduct && currentProduct.name) || product.name} ({size}/
-              {color})
+              {(currentProduct && currentProduct.name) || product.name}
+              {size && size !== "undefined" ? ` (${size}/${color})` : ` (${color})`}
             </h1>
             <div className="flex mb-4 ">
               <span className="flex items-center ">
@@ -193,57 +193,11 @@ const ProductPage = ({ buyNow, addToCart, product, variant }) => {
             <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
               <div className="flex">
                 <span className="mr-3">Color</span>
-                {Object.keys(variant).includes("Dark Blue") &&
-                  Object.keys(variant["Dark Blue"]).includes(size) && (
-                    <button
-                      onClick={() => refreshVariant("Dark Blue", size)}
-                      className={`border-2 border-gray-300 rounded-full w-7 h-7 focus:outline-black bg-[#2d415e] ${color === "Dark Blue" ? "ring-3 ring-black" : ""} `}
-                    ></button>
-                  )}
-                {Object.keys(variant).includes("Light Blue") &&
-                  Object.keys(variant["Light Blue"]).includes(size) && (
-                    <button
-                      onClick={() => refreshVariant("Light Blue", size)}
-                      className={`border-2 border-gray-300 ml-1 bg-blue-400 rounded-full w-7 h-7 focus:outline-black ${color === "Light Blue" ? "ring-3 ring-black" : ""} `}
-                    ></button>
-                  )}
-                {Object.keys(variant).includes("Pink") &&
-                  Object.keys(variant["Pink"]).includes(size) && (
-                    <button
-                      onClick={() => refreshVariant("Pink", size)}
-                      className={`border-2 border-gray-300 ml-1 bg-[#eb4657] rounded-full w-7 h-7 focus:outline-black ${color === "Pink" ? "ring-3 ring-black" : ""} `}
-                    ></button>
-                  )}
-                {Object.keys(variant).includes("White") &&
-                  Object.keys(variant["White"]).includes(size) && (
-                    <button
-                      onClick={() => {
-                        refreshVariant("White", size);
-                      }}
-                      className={`border-2 border-gray-300 rounded-full w-7 h-7 mx-1  focus:outline-black bg-white ${color === "White" ? "ring-3 ring-black" : ""} `}
-                    ></button>
-                  )}
                 {Object.keys(variant).includes("Blue") &&
                   Object.keys(variant["Blue"]).includes(size) && (
                     <button
                       onClick={() => refreshVariant("Blue", size)}
-                      className={`border-2 border-gray-300 ml-1 bg-blue-500 rounded-full w-7 h-7 focus:outline-black ${color === "Blue" ? "ring-3 ring-black" : ""} `}
-                    ></button>
-                  )}
-                {Object.keys(variant).includes("Red") &&
-                  Object.keys(variant["Red"]).includes(size) && (
-                    <button
-                      onClick={() => {
-                        refreshVariant("Red", size);
-                      }}
-                      className={`border-2 border-gray-300 ml-1 bg-red-600 rounded-full w-7 h-7 focus:outline-black ${color === "Red" ? "ring-3 ring-black" : ""} `}
-                    ></button>
-                  )}
-                {Object.keys(variant).includes("Dark Green") &&
-                  Object.keys(variant["Dark Green"]).includes(size) && (
-                    <button
-                      onClick={() => refreshVariant("Dark Green", size)}
-                      className={`border-2 border-gray-300 rounded-full w-7 h-7 focus:outline-black bg-[#657537] ${color === "Dark Green" ? "ring-3 ring-black" : ""} `}
+                      className={`border-2 border-gray-300 mx-[2px]  bg-blue-500 rounded-full w-7 h-7 focus:outline-black ${color === "Blue" ? "ring-3 ring-black" : ""} `}
                     ></button>
                   )}
                 {Object.keys(variant).includes("Black") &&
@@ -252,24 +206,166 @@ const ProductPage = ({ buyNow, addToCart, product, variant }) => {
                       onClick={() => {
                         refreshVariant("Black", size);
                       }}
-                      className={`border-2 border-gray-300 ml-1 bg-black rounded-full w-7 h-7 focus:outline-black ${color === "Black" ? "ring-3 ring-black" : ""} `}
+                      className={`border-2 border-gray-300 mx-[2px] bg-black rounded-full w-7 h-7 focus:outline-black ${color === "Black" ? "ring-3 ring-black" : ""} `}
                     ></button>
                   )}
+                {Object.keys(variant).includes("Dark Blue") &&
+                  Object.keys(variant["Dark Blue"]).includes(size) && (
+                    <button
+                      onClick={() => refreshVariant("Dark Blue", size)}
+                      className={`border-2 border-gray-300 mx-[2px] rounded-full w-7 h-7 focus:outline-black bg-[#2d415e] ${color === "Dark Blue" ? "ring-3 ring-black" : ""} `}
+                    ></button>
+                  )}
+                {Object.keys(variant).includes("Light Blue") &&
+                  Object.keys(variant["Light Blue"]).includes(size) && (
+                    <button
+                      onClick={() => refreshVariant("Light Blue", size)}
+                      className={`border-2 border-gray-300 mx-[2px] ml-1 bg-blue-400 rounded-full w-7 h-7 focus:outline-black ${color === "Light Blue" ? "ring-3 ring-black" : ""} `}
+                    ></button>
+                  )}
+                {Object.keys(variant).includes("Pink") &&
+                  Object.keys(variant["Pink"]).includes(size) && (
+                    <button
+                      onClick={() => refreshVariant("Pink", size)}
+                      className={`border-2 border-gray-300 mx-[2px] ml-1 bg-[#eb4657] rounded-full w-7 h-7 focus:outline-black ${color === "Pink" ? "ring-3 ring-black" : ""} `}
+                    ></button>
+                  )}
+                {Object.keys(variant).includes("White") &&
+                  Object.keys(variant["White"]).includes(size) && (
+                    <button
+                      onClick={() => {
+                        refreshVariant("White", size);
+                      }}
+                      className={`border-2 border-gray-300 mx-[2px] rounded-full w-7 h-7  focus:outline-black bg-white ${color === "White" ? "ring-3 ring-black" : ""} `}
+                    ></button>
+                  )}
+
+                {Object.keys(variant).includes("Red") &&
+                  Object.keys(variant["Red"]).includes(size) && (
+                    <button
+                      onClick={() => {
+                        refreshVariant("Red", size);
+                      }}
+                      className={`border-2 border-gray-300 mx-[2px] ml-1 bg-red-600 rounded-full w-7 h-7 focus:outline-black ${color === "Red" ? "ring-3 ring-black" : ""} `}
+                    ></button>
+                  )}
+                {Object.keys(variant).includes("Dark Green") &&
+                  Object.keys(variant["Dark Green"]).includes(size) && (
+                    <button
+                      onClick={() => refreshVariant("Dark Green", size)}
+                      className={`border-2 border-gray-300 mx-[2px] rounded-full w-7 h-7 focus:outline-black bg-[#657537] ${color === "Dark Green" ? "ring-3 ring-black" : ""} `}
+                    ></button>
+                  )}
+                {Object.keys(variant).includes("Green") &&
+                  Object.keys(variant["Green"]).includes(size) && (
+                    <button
+                      onClick={() => refreshVariant("Green", size)}
+                      className={`border-2 border-gray-300 mx-[2px] rounded-full w-7 h-7 focus:outline-black bg-[#116741] ${color === "Green" ? "ring-3 ring-black" : ""} `}
+                    ></button>
+                  )}
+
                 {Object.keys(variant).includes("Off White") &&
                   Object.keys(variant["Off White"]).includes(size) && (
                     <button
                       onClick={() => {
                         refreshVariant("Off White", size);
                       }}
-                      className={`border-2 border-gray-300 ml-1 bg-[#f3eccc] rounded-full w-7 h-7 focus:outline-black ${color === "Off White" ? "ring-3 ring-black" : ""} `}
+                      className={`border-2 border-gray-300 mx-[2px] ml-1 bg-[#f3eccc] rounded-full w-7 h-7 focus:outline-black ${color === "Off White" ? "ring-3 ring-black" : ""} `}
                     ></button>
                   )}
                 {Object.keys(variant).includes("Yellow") &&
                   Object.keys(variant["Yellow"]).includes(size) && (
                     <button
                       onClick={() => refreshVariant("Yellow", size)}
-                      className={`border-2 border-gray-300 ml-1 bg-[#fdda64] rounded-full w-7 h-7 focus:outline-black ${color === "Yellow" ? "ring-3 ring-black" : ""} `}
+                      className={`border-2 border-gray-300 mx-[2px] ml-1 bg-[#fdda64] rounded-full w-7 h-7 focus:outline-black ${color === "Yellow" ? "ring-3 ring-black" : ""} `}
                     ></button>
+                  )}
+                {Object.keys(variant).includes("Purple") &&
+                  Object.keys(variant["Purple"]).includes(size) && (
+                    <button
+                      onClick={() => refreshVariant("Purple", size)}
+                      className={`border-2 border-gray-300 mx-[2px] bg-[#6f59a2] rounded-full w-7 h-7 focus:outline-black ${color === "Purple" ? "ring-3 ring-black" : ""} `}
+                    ></button>
+                  )}
+                {Object.keys(variant).includes("Dark Teal") &&
+                  Object.keys(variant["Dark Teal"]).includes(size) && (
+                    <button
+                      onClick={() => refreshVariant("Dark Teal", size)}
+                      className={`border-2 border-gray-300 mx-[2px] bg-[#287d90] rounded-full w-7 h-7 focus:outline-black ${color === "Dark Teal" ? "ring-3 ring-black" : ""} `}
+                    ></button>
+                  )}
+                {Object.keys(variant).includes("Random 1") &&
+                  Object.keys(variant["Random 1"]).includes(size) && (
+                    <button
+                      onClick={() => refreshVariant("Random 1", size)}
+                      className={`border-2 border-gray-300 mx-[2px] px-1  rounded-[4px] w-auto h-auto focus:outline-black ${color === "Random 1" ? "ring-3 ring-black" : ""} `}
+                    >
+                      Random 1
+                    </button>
+                  )}
+                {Object.keys(variant).includes("Paper") &&
+                  Object.keys(variant["Paper"]).includes(size) && (
+                    <button
+                      onClick={() => refreshVariant("Paper", size)}
+                      className={`border-2 border-gray-300 mx-[2px] px-1  rounded-[4px] w-auto h-auto focus:outline-black ${color === "Paper" ? "ring-3 ring-black" : ""} `}
+                    >
+                      Paper
+                    </button>
+                  )}
+                {Object.keys(variant).includes("Job") &&
+                  Object.keys(variant["Job"]).includes(size) && (
+                    <button
+                      onClick={() => refreshVariant("Job", size)}
+                      className={`border-2 border-gray-300 mx-[2px] px-1  rounded-[4px] w-auto h-auto focus:outline-black ${color === "Job" ? "ring-3 ring-black" : ""} `}
+                    >
+                      Job
+                    </button>
+                  )}
+                {Object.keys(variant).includes("Super Hero") &&
+                  Object.keys(variant["Super Hero"]).includes(size) && (
+                    <button
+                      onClick={() => refreshVariant("Super Hero", size)}
+                      className={`border-2 border-gray-300 mx-[2px] px-1  rounded-[4px] w-auto h-auto focus:outline-black ${color === "Super Hero" ? "ring-3 ring-black" : ""} `}
+                    >
+                      Super Hero
+                    </button>
+                  )}
+              
+                {Object.keys(variant).includes("Business") &&
+                  Object.keys(variant["Business"]).includes(size) && (
+                    <button
+                      onClick={() => refreshVariant("Business", size)}
+                      className={`border-2 border-gray-300 mx-[2px] px-1  rounded-[4px] w-auto h-auto focus:outline-black ${color === "Business" ? "ring-3 ring-black" : ""} `}
+                    >
+                      Business
+                    </button>
+                  )}
+                {Object.keys(variant).includes("Tourist Places") &&
+                  Object.keys(variant["Tourist Places"]).includes(size) && (
+                    <button
+                      onClick={() => refreshVariant("Tourist Places", size)}
+                      className={`border-2 border-gray-300 mx-[2px] px-1  rounded-[4px] w-auto h-auto focus:outline-black ${color === "Tourist Places" ? "ring-3 ring-black" : ""} `}
+                    >
+                      Tourist Places
+                    </button>
+                  )}
+                {Object.keys(variant).includes("Random 2") &&
+                  Object.keys(variant["Random 2"]).includes(size) && (
+                    <button
+                      onClick={() => refreshVariant("Random 2", size)}
+                      className={`border-2 border-gray-300 mx-[2px] px-1  rounded-[4px] w-auto h-auto focus:outline-black ${color === "Random 2" ? "ring-3 ring-black" : ""} `}
+                    >
+                      Random 2
+                    </button>
+                  )}
+                {Object.keys(variant).includes("Pets") &&
+                  Object.keys(variant["Pets"]).includes(size) && (
+                    <button
+                      onClick={() => refreshVariant("Pets", size)}
+                      className={`border-2 border-gray-300 mx-[2px] px-1  rounded-[4px] w-auto h-auto focus:outline-black ${color === "Pets" ? "ring-3 ring-black" : ""} `}
+                    >
+                      Pets
+                    </button>
                   )}
               </div>
               <div className="flex ml-6 items-center">
@@ -352,12 +448,16 @@ const ProductPage = ({ buyNow, addToCart, product, variant }) => {
               <button
                 onClick={() => {
                   let proprice = product.price;
+                  const finalSize =
+                    size && size !== "default" && size !== "undefined"
+                      ? size
+                      : "";
                   addToCart(
                     currentSlug || slug,
                     1,
                     (currentProduct && currentProduct.price) || { proprice },
                     (currentProduct && currentProduct.name) || "Product",
-                    size,
+                    finalSize,
                     color,
                   );
                 }}
@@ -426,7 +526,10 @@ export async function getServerSideProps(context) {
     await mongoose.connect(process.env.MONGO_URI);
   }
   let product = await Product.findOne({ slug: context.query.slug });
-  let variant = await Product.find({ name: product.name });
+  let variant = await Product.find({
+    name: product.name,
+    category: product.category,
+  });
   let colorSizeSlug = {};
   for (let item of variant) {
     if (Object.keys(colorSizeSlug).includes(item.color)) {

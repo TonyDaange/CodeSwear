@@ -1,0 +1,19 @@
+# POST http://localhost:4200/api/signup
+# Content-Type: application/json
+# Accept: application/json
+
+# {
+#     "name": "Tony Dange",
+#     "email": "tonydaange@gmail.com",
+#     "password": "123456"
+# }
+
+
+# POST http://localhost:4200/api/login
+# Content-Type: application/json
+# Accept: application/json
+
+# {
+#     "email": "tonydaange@gmail.com",
+#     "password": "123456"
+# }
