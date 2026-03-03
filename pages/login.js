@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useState } from "react";
+import React, {useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -21,8 +21,6 @@ const Login = () => {
     });
     let response = await res.json();
     console.log(response);
-    setEmail("");
-    setPassword("");
     if (response.success) {
       localStorage.setItem("token", response.token);
       toast.success("Logged in successfully!", {
@@ -56,6 +54,13 @@ const Login = () => {
       setPassword(e.target.value);
     }
   };
+
+useEffect(() => {
+  if (localStorage.getItem("token")) {
+    router.push("/");
+  }
+}, []);
+
   return (
     <div className="lg:mt-35 xl:mt-25 mt-42">
       <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 text-2xl">
@@ -108,7 +113,7 @@ const Login = () => {
               </div>
             </div>
             <div className="flex items-center justify-between mt-6">
-              <div className="flex items-center">
+              {/* <div className="flex items-center">
                 <input
                   id="remember-me"
                   name="remember-me"
@@ -121,7 +126,7 @@ const Login = () => {
                 >
                   Remember me
                 </label>
-              </div>
+              </div> */}
               <div className="text-2xl text-right">
                 <Link
                   href="/forgot"

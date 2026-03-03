@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
@@ -47,7 +47,12 @@ const Signup = () => {
       setPassword(e.target.value);
     }
   };
-
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      router.push("/");
+    }
+  }, []);
+  
   return (
     <div className="lg:mt-35 xl:mt-25 mt-42">
       <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 text-2xl">

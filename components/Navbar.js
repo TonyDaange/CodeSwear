@@ -5,11 +5,24 @@ import { AiFillMinusSquare, AiFillPlusSquare } from "react-icons/ai";
 import { HiShoppingBag } from "react-icons/hi2";
 import { BsTrash3Fill } from "react-icons/bs";
 import { MdAccountBox } from "react-icons/md";
+import { HiOutlineLogout  } from "react-icons/hi";
+import { useRouter } from "next/router";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const Navbar = ({ cart, addToCart, removeFromCart, clearCart, subTotal }) => {
+const Navbar = ({
+  cart,
+  addToCart,
+  removeFromCart,
+  clearCart,
+  subTotal,
+  user,
+}) => {
   // console.log(cart, addToCart, removeFromCart, clearCart, subTotal);
   const ref = useRef();
+  let router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+  const [dropdown, setDropdown] = useState(false);
 
   // Cart items with quantities  ────┬──────························─────┬──────
   //                                 ╰── This is commented out for now ──╯
@@ -40,6 +53,32 @@ const Navbar = ({ cart, addToCart, removeFromCart, clearCart, subTotal }) => {
     const qty = (item && item.qty) || 0;
     return sum + qty;
   }, 0);
+  const onDropdown = () => {
+    setDropdown(true);
+  };
+  const offDropdown = () => {
+    setDropdown(false);
+  };
+  const offfDropdown = () => {
+    setDropdown(!dropdown);
+  };
+  const logOut = () => {
+    localStorage.removeItem("token");
+    setDropdown(false);
+    toast.success("Logged out successfully!", {
+      position: "top-left",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+    setTimeout(() => {
+      router.push("/");
+    }, 3000);
+  };
 
   return (
     <div>
@@ -49,12 +88,12 @@ const Navbar = ({ cart, addToCart, removeFromCart, clearCart, subTotal }) => {
             {/* Logo */}
             <Link
               href={"/"}
-              className="flex items-center -ml-20 xl:ml-5 lg:mr-15 lg:ml-2 lg:mt-0 mt-5 mb-2 xl:mb-0 xl:mt-0 "
+              className="flex items-center -ml-40 xl:ml-5 lg:mr-15 lg:ml-2 lg:mt-0 mt-5 mb-2 xl:mb-0 xl:mt-0 "
             >
               <img
                 src="/hader.png"
                 alt="hader"
-                className="h-25 xl:h-16 rounded-lg"
+                className="h-22 lg:h-19 xl:h-16 rounded-lg"
               />
             </Link>
             {/* Navigation Menu (centered) */}
@@ -72,13 +111,23 @@ const Navbar = ({ cart, addToCart, removeFromCart, clearCart, subTotal }) => {
                 Stickers
               </Link>
             </nav>
-
             {/* Cart (stays on the right) */}
             <div className="flex items-center ml-0 flex-none absolute top-10 right-5 lg:top-8 lg:right-10 xl:static xl:right-6 xl:mr-10 ">
               <button className=" relative pr-1 flex ">
-                <Link href="/login">
-                  <MdAccountBox className="hover:text-blue-800 text-5xl lg:text-7xl xl:text-6xl cursor-pointer mx-1" />
-                </Link>
+                {user.value && (
+                  <MdAccountBox
+                    onClick={onDropdown}
+                    onMouseLeave={offfDropdown}
+                    className="hover:text-blue-800 text-5xl lg:text-7xl xl:text-6xl cursor-pointer mx-1"
+                  />
+                )}
+                {!user.value && (
+                  <Link href="/login">
+                    <div className="hover:text-blue-800 text-2xl lg:text-4xl xl:text-3xl cursor-pointer mx-5 mt-3 xl:mt-3 lg:mt-4 lg:mx-3 xl:mx-5 font-extrabold ">
+                      Login
+                    </div>
+                  </Link>
+                )}
                 <TiShoppingCart
                   onClick={ToggleCart}
                   className="hover:text-blue-800 text-5xl lg:text-7xl xl:text-6xl cursor-pointer"
@@ -92,9 +141,37 @@ const Navbar = ({ cart, addToCart, removeFromCart, clearCart, subTotal }) => {
                 {/* <div className="absolute left-1/2 transform -translate-x-1/2 top-full mt-1 w-0 h-0 border-l-15 border-r-15 border-b-15 border-l-transparent border-r-transparent border-b-gray-900 pointer-events-none"></div> */}
               </button>
             </div>
-
+            <div
+              onMouseLeave={offDropdown}
+              className="absolute top-15 right-32"
+            >
+              {dropdown && (
+                <div className="absolute right-0 mt-2 w-48 bg-gray-900 rounded-md shadow-lg py-2 z-20 font-bold">
+                  <Link
+                    href="/myaccount"
+                    className="block px-4 py-2 text-xl text-white hover:bg-gray-700"
+                  >
+                    My Account
+                  </Link>
+                  <hr className="border-gray-600" />
+                  <Link
+                    href="/orders"
+                    className="block px-4 py-2 text-xl text-white hover:bg-gray-700"
+                  >
+                    Orders
+                  </Link>
+                  <hr className="border-gray-600 " />
+                  <button
+                    onClick={logOut}
+                    className="flex w-full text-left px-4 py-2 text-xl text-white hover:bg-gray-700"
+                  >
+                    Logout
+                    <HiOutlineLogout className="ml-2 mt-1  " />
+                  </button>
+                </div>
+              )}
+            </div>
             {/* sidebar ↓ */}
-
             <div
               ref={ref}
               className="sidebar fixed top-42 lg:top-35 xl:top-25 right-0 bg-gray-900 transform translate-x-full transition-transform duration-300 ease-in-out md:w-110 w-78 z-50 flex flex-col px-5 scrollbar-hide rounded-l-2xl "
@@ -161,13 +238,16 @@ const Navbar = ({ cart, addToCart, removeFromCart, clearCart, subTotal }) => {
 
               <div className="bg-gray-900 py-4 px-5 border-t border-gray-700 flex-shrink-0 flex lg:justify-between lg:space-x-5 lg:flex-row flex-col space-y-3">
                 <Link href="/checkout">
-                  <button className="w-full text-white bg-blue-600 border-0 py-2 px-8 focus:outline-none hover:bg-blue-500 rounded text-xl font-semibold flex justify-center items-center ">
+                  <button
+                    onClick={ToggleCart}
+                    className="w-full text-white bg-blue-600 border-0 py-2 px-8 focus:outline-none hover:bg-blue-500 rounded text-xl font-semibold flex justify-center items-center "
+                  >
                     <HiShoppingBag className="text-4xl lg:text-5xl mr-5 lg:mr-3" />
                     Check Out
                   </button>
                 </Link>
                 <button
-                  onClick={clearCart}
+                  onClick={() => { clearCart(); ToggleCart(); }}
                   className="w-full text-white bg-blue-600 border-0 py-2 lg:py-0 px-8 focus:outline-none hover:bg-blue-500 rounded text-xl font-semibold flex justify-center items-center lg:h-18"
                 >
                   <BsTrash3Fill className="text-3xl lg:text-5xl mr-3 lg:mr-3" />
@@ -177,6 +257,12 @@ const Navbar = ({ cart, addToCart, removeFromCart, clearCart, subTotal }) => {
             </div>
           </div>
         </div>
+        <ToastContainer
+          bodyClassName="font-mono"
+          newestOnTop
+          rtl={false}
+          pauseOnFocusLoss
+        />
       </header>
     </div>
   );

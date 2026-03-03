@@ -3,12 +3,25 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import "../styles/globals.css";
 import { useRouter } from "next/router";
+import LoadingBar from "react-top-loading-bar";
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
   const [cart, setCart] = useState({});
   const [subTotal, setSubTotal] = useState(0);
+  const [user, setUser] = useState({ value: null });
+  const [key, setKey] = useState(0);
+  const [progress, setProgress] = useState(0);
+  // routeChangeStart = () => {
+  //   setProgress(40);
+  // }
   useEffect(() => {
+    router.events.on("routeChangeStart", () => {
+      setProgress(35);
+    });
+    router.events.on("routeChangeComplete", () => {
+      setProgress(100);
+    });
     // console.log("Oh.... this is UseEffeect \n by _app.js");
     try {
       if (localStorage.getItem("cart")) {
@@ -19,7 +32,16 @@ function MyApp({ Component, pageProps }) {
       console.error("Error loading cart from localStorage:", error);
       localStorage.clear();
     }
-  }, []);
+    const token = localStorage.getItem("token");
+    if (token) {
+      setUser({ value: token });
+      setKey(Math.random());
+    }
+    if (!token) {
+      setUser({ value: null });
+      setKey(Math.random());
+    }
+  }, [router.query]);
 
   const saveCart = (myCart) => {
     localStorage.setItem("cart", JSON.stringify(myCart));
@@ -54,7 +76,7 @@ function MyApp({ Component, pageProps }) {
     saveCart({});
     console.log("Cart has been cleared.");
   };
-  
+
   const buyNow = (itemCode, qty, price, name, size, variant) => {
     setCart({});
     saveCart({});
@@ -70,7 +92,7 @@ function MyApp({ Component, pageProps }) {
     let newSubTotal = subTotal + qty * price;
     setSubTotal(newSubTotal);
     saveCart(newCart);
-    
+
     router.push("/checkout");
   };
 
@@ -91,25 +113,37 @@ function MyApp({ Component, pageProps }) {
   };
 
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
+      <LoadingBar
+        color="#00ffe2"
+        height={3}
+        progress={progress}
+        onLoaderFinished={() => setProgress(0)}
+        transitionTime={1000}
+        loaderSpeed={1000}
+      />
       <Navbar
+        key={key}
+        user={user}
         cart={cart}
         addToCart={addToCart}
         removeFromCart={removeFromCart}
         clearCart={clearCart}
         subTotal={subTotal}
       />
-      <Component
-        cart={cart}
-        addToCart={addToCart}
-        removeFromCart={removeFromCart}
-        clearCart={clearCart}
-        subTotal={subTotal}
-        buyNow={buyNow}
-        {...pageProps}
-      />
+      <main className="flex-1">
+        <Component
+          cart={cart}
+          addToCart={addToCart}
+          removeFromCart={removeFromCart}
+          clearCart={clearCart}
+          subTotal={subTotal}
+          buyNow={buyNow}
+          {...pageProps}
+        />
+      </main>
       <Footer />
-    </>
+    </div>
   );
 }
 

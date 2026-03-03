@@ -22,7 +22,7 @@ const handler = async (req, res) => {
             email: req.body.email,
           },
           process.env.JWT_SECRET,
-          { expiresIn: "1m" },
+          { expiresIn: "2d" },
         );
 
         console.log({ token: token });
