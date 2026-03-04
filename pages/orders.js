@@ -1,7 +1,7 @@
-import mongoose from "mongoose";
-import React from "react";
-import Order from "../models/Order";
+import React, { useEffect } from "react";
 import { useRouter } from "next/router";
+// import mongoose from "mongoose";
+// import Order from "../models/Order";
 
 const Orders = () => {
   const router = useRouter();
@@ -84,17 +84,17 @@ const Orders = () => {
   );
 };
 
-export async function getServerSideProps(context) {
-  if (!mongoose.connections[0].readyState) {
-    await mongoose.connect(process.env.MONGO_URI);
-  }
-  // let orders = await Order.find({ user: user.id });
-  let orders = await Order.find({ });
+// export async function getServerSideProps(context) {
+//   if (!mongoose.connections[0].readyState) {
+//     await mongoose.connect(process.env.MONGO_URI);
+//   }
+//   // let orders = await Order.find({ user: user.id });
+//   let orders = await Order.find({ });
 
-  return {
-    // props: { orders: JSON.parse(JSON.stringify(orders)) }, // will be passed to the page component as props
-    props: { orders: orders }, // will be passed to the page component as props
-  };
-}
+//   return {
+//     // props: { orders: JSON.parse(JSON.stringify(orders)) }, // will be passed to the page component as props
+//     props: { orders: orders }, // will be passed to the page component as props
+//   };
+// }
 
 export default Orders;

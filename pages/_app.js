@@ -122,7 +122,7 @@ function MyApp({ Component, pageProps }) {
         transitionTime={1000}
         loaderSpeed={1000}
       />
-      <Navbar
+      {key &&<Navbar
         key={key}
         user={user}
         cart={cart}
@@ -130,7 +130,7 @@ function MyApp({ Component, pageProps }) {
         removeFromCart={removeFromCart}
         clearCart={clearCart}
         subTotal={subTotal}
-      />
+      />}
       <main className="flex-1">
         <Component
           cart={cart}
