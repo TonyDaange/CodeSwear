@@ -1,11 +1,163 @@
-import React from "react";
-import Link from "next/link";
+import React, { useState } from "react";
 import { AiFillMinusSquare, AiFillPlusSquare } from "react-icons/ai";
 import { HiShoppingBag } from "react-icons/hi2";
+import Head from "next/head";
+import Script from "next/script";
+import { useRouter } from "next/router";
+// import connectDb from "../../middleware/mongoose";
+// import Order from "../../models/Order";
+// Order;
+// connectDb;
 
-const checkout = ({ cart, addToCart, removeFromCart, subTotal }) => {
+const checkout = ({ cart, addToCart, removeFromCart, subTotal, clearCart }) => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [pincode, setPincode] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [disabled, setDisabled] = useState(true);
+  const router = useRouter();
+
+  async function initiatePayment(e) {
+    e.preventDefault();
+    if (!window.Razorpay) {
+      console.error("Razorpay SDK failed to load");
+      return;
+    }
+
+    const name = document.getElementById("name")?.value || "";
+    const email = document.getElementById("email")?.value || "";
+    const phone = document.getElementById("phone")?.value || "";
+
+    const oid = Math.floor(Math.random() * Date.now());
+    const data = {
+      cart,
+      subTotal,
+      oid,
+      email: email,
+      name: name,
+      phone: phone,
+      address: address,
+      pincode: pincode,
+      // city: city,
+      // state: state,
+    };
+
+    const orderReq = await fetch("/api/pretransaction", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    const order = await orderReq.json();
+    if (!orderReq.ok) {
+      console.error("Failed to create order", order);
+      return;
+    }
+
+    const options = {
+      key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+      amount: order.amount,
+      currency: order.currency,
+      name: "Codeswear",
+      description: "Order Payment",
+      order_id: order.id,
+      handler: async function (response) {
+        const verifyRes = await fetch("/api/posttransaction", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            oid,
+            cart,
+            subTotal,
+            ...response,
+          }),
+        });
+
+        const verification = await verifyRes.json();
+        if (verifyRes.ok && verification.success) {
+          alert("Payment successful! Your order has been placed.");
+          setTimeout(() => {
+            router.push("/order");
+          }, 10000);
+        } else {
+          console.error("Payment verification failed", verification);
+        }
+      },
+      prefill: {
+        name,
+        email,
+        contact: phone,
+      },
+      notes: {
+        orderRef: String(oid),
+      },
+      theme: {
+        color: "#0050ff",
+      },
+      modal: {
+        ondismiss: function () {
+          console.log("Razorpay checkout closed by user");
+        },
+      },
+    };
+
+    const razorpay = new window.Razorpay(options);
+    razorpay.open();
+  }
+
+  const handleChange = (e) => {
+    if (e.target.name === "name") {
+      setName(e.target.value);
+    } else if (e.target.name === "email") {
+      setEmail(e.target.value);
+    } else if (e.target.name === "phone") {
+      setPhone(e.target.value);
+    } else if (e.target.name === "address") {
+      setAddress(e.target.value);
+    } else if (e.target.name === "pincode") {
+      setPincode(e.target.value);
+    } else {
+      console.warn("Unhandled input change for", e.target.name);
+    }
+    setTimeout(() => {
+      if (
+        name.length >= 5 &&
+        email.length >= 5 &&
+        phone.length >= 10 &&
+        address.length >= 10 &&
+        pincode.length >= 6
+      ) {
+        setDisabled(false);
+      } else {
+        setDisabled(true);
+      }
+    }, 100);
+  };
+
   return (
     <div className="container lg:mt-35 xl:mt-25 mt-42 mx-auto">
+      <Head>
+        <title>Codeswear - Checkout</title>
+        <meta name="description" content="Codeswear - Checkout" />
+        <meta
+          name="viewport"
+          content="width=device-width,height=device-height, initial-scale=1.0, maximum-scale=1.0"
+        />
+      </Head>
+      <Script
+        type="application/javascript"
+        crossOrigin="anonymous"
+        src="https://checkout.razorpay.com/v1/checkout.js"
+      />
       <h1 className="text-5xl text-center my-50 mb-25 to-black font-extrabold">
         Checkout
       </h1>
@@ -19,6 +171,9 @@ const checkout = ({ cart, addToCart, removeFromCart, subTotal }) => {
               Name
             </label>
             <input
+              onChange={handleChange}
+              value={name}
+              required
               type="text"
               id="name"
               name="name"
@@ -32,6 +187,9 @@ const checkout = ({ cart, addToCart, removeFromCart, subTotal }) => {
               Email
             </label>
             <input
+              onChange={handleChange}
+              value={email}
+              required
               type="email"
               id="email"
               name="email"
@@ -47,6 +205,9 @@ const checkout = ({ cart, addToCart, removeFromCart, subTotal }) => {
             Address
           </label>
           <textarea
+            onChange={handleChange}
+            value={address}
+            required
             rows={5}
             id="address"
             name="address"
@@ -62,37 +223,12 @@ const checkout = ({ cart, addToCart, removeFromCart, subTotal }) => {
               Phone
             </label>
             <input
+              value={phone}
+              onChange={handleChange}
+              required
               type="number"
               id="phone"
               name="phone"
-              className="w-full bg-white border-2 border-gray-300 focus:border-blue-500 focus:ring-3 focus:ring-blue-200 text-[18px] outline-none text-gray-700 py-1 px-3 leading-10 transition-colors duration-300 ease-in-out rounded-[5px] mt-3 "
-            />
-          </div>
-        </div>
-        <div className="px-2 lg:w-1/2">
-          <div className=" mb-4 ">
-            <label htmlFor="city" className="leading-10 text-2xl to-black ">
-              City
-            </label>
-            <input
-              type="text"
-              id="city"
-              name="city"
-              className="w-full bg-white border-2 border-gray-300 focus:border-blue-500 focus:ring-3 focus:ring-blue-200 text-[18px] outline-none text-gray-700 py-1 px-3 leading-10 transition-colors duration-300 ease-in-out rounded-[5px] mt-3 mb-5"
-            />
-          </div>
-        </div>
-      </form>
-      <form className=" lg:flex ml-10 mr-10 lg:mr-0 lg:ml-0 justify-center ">
-        <div className="px-2 lg:w-1/2">
-          <div className=" mb-4 ">
-            <label htmlFor="state" className="leading-10 text-2xl to-black ">
-              State
-            </label>
-            <input
-              type="text"
-              id="state"
-              name="state"
               className="w-full bg-white border-2 border-gray-300 focus:border-blue-500 focus:ring-3 focus:ring-blue-200 text-[18px] outline-none text-gray-700 py-1 px-3 leading-10 transition-colors duration-300 ease-in-out rounded-[5px] mt-3 "
             />
           </div>
@@ -103,10 +239,48 @@ const checkout = ({ cart, addToCart, removeFromCart, subTotal }) => {
               Pin Code
             </label>
             <input
-              type="text"
+              value={pincode}
+              onChange={handleChange}
+              required
+              type="number"
               id="pincode"
               name="pincode"
               className="w-full bg-white border-2 border-gray-300 focus:border-blue-500 focus:ring-3 focus:ring-blue-200 text-[18px] outline-none text-gray-700 py-1 px-3 leading-10 transition-colors duration-300 ease-in-out rounded-[5px] mt-3 mb-5"
+            />
+          </div>
+        </div>
+      </form>
+
+      <form className=" lg:flex ml-10 mr-10 lg:mr-0 lg:ml-0 justify-center ">
+        <div className="px-2 lg:w-1/2">
+          <div className=" mb-4 ">
+            <label htmlFor="state" className="leading-10 text-2xl to-black ">
+              State
+            </label>
+            <input
+              value={state}
+              required
+              type="text"
+              id="state"
+              name="state"
+              className="w-full bg-white border-2 border-gray-300 focus:border-blue-500 focus:ring-3 focus:ring-blue-200 text-[18px] outline-none text-gray-700 py-1 px-3 leading-10 transition-colors duration-300 ease-in-out rounded-[5px] mt-3 "
+              readOnly
+            />
+          </div>
+        </div>
+        <div className="px-2 lg:w-1/2">
+          <div className=" mb-4 ">
+            <label htmlFor="city" className="leading-10 text-2xl to-black ">
+              City
+            </label>
+            <input
+              value={city}
+              required
+              type="text"
+              id="city"
+              name="city"
+              className="w-full bg-white border-2 border-gray-300 focus:border-blue-500 focus:ring-3 focus:ring-blue-200 text-[18px] outline-none text-gray-700 py-1 px-3 leading-10 transition-colors duration-300 ease-in-out rounded-[5px] mt-3 "
+              readOnly
             />
           </div>
         </div>
@@ -115,23 +289,20 @@ const checkout = ({ cart, addToCart, removeFromCart, subTotal }) => {
         2. Review cart items & Pay
       </h2>
       <div className="sidebar flex flex-col ml-10 mr-10 lg:mr-0 lg:ml-0">
-        {/* <h2 className="text-3xl font-bold px-5 pt-5 pb-2  flex-shrink-0">
-          Your Cart
-        </h2> */}
-
         <ol className="font-semibold text-2xl flex-1 overflow-y-auto overflow-x-hidden">
           {(!cart || Object.keys(cart).length === 0) && (
             <div className="my-4 mx-6">Your cart is empty!</div>
           )}
           {Object.keys(cart).map((k) => {
+            const itemDetails = [cart[k].size, cart[k].variant]
+              .filter((v) => v && v !== "undefined" && v !== "default")
+              .join(" / ");
+
             return (
               <li key={k} className="flex items-center my-2">
                 <span className="w-5/6 break-words overflow-hidden">
-                  {cart[k].name} ({cart[k].size}/{cart[k].variant})
+                  {cart[k].name} {itemDetails ? `(${itemDetails})` : ""}
                 </span>
-                {/* <span className="w-3/5 break-words overflow-hidden">
-                         Green Hoodie - SM Green
-                      </span> */}
 
                 <AiFillMinusSquare
                   onClick={() => {
@@ -141,7 +312,7 @@ const checkout = ({ cart, addToCart, removeFromCart, subTotal }) => {
                       cart[k].price,
                       cart[k].name,
                       cart[k].size,
-                      cart[k].variant
+                      cart[k].variant,
                     );
                   }}
                   className="text-4xl  ml-4 cursor-pointer hover:text-red-400 flex-shrink-0"
@@ -155,7 +326,7 @@ const checkout = ({ cart, addToCart, removeFromCart, subTotal }) => {
                       cart[k].price,
                       cart[k].name,
                       cart[k].size,
-                      cart[k].variant
+                      cart[k].variant,
                     );
                   }}
                   className="text-4xl cursor-pointer hover:text-green-400 flex-shrink-0"
@@ -171,11 +342,16 @@ const checkout = ({ cart, addToCart, removeFromCart, subTotal }) => {
         </div>
 
         <div className=" py-4 px-5 flex-shrink-0 flex lg:justify-between lg:space-x-5 lg:flex-row flex-col space-y-3 ">
-          <button className="w-full text-white bg-blue-600 border-0 py-2 px-8 focus:outline-none hover:bg-blue-500 rounded text-3xl font-semibold flex justify-center items-center ">
-          <Link href="/order" className="flex justify-center items-center">
+          <button
+            disabled={disabled}
+            onClick={async (e) => {
+              await initiatePayment(e);
+              clearCart();
+            }}
+            className="disabled:bg-blue-400 w-full text-white bg-blue-600 border-0 py-2 px-8 focus:outline-none hover:bg-blue-500 rounded text-3xl font-semibold flex justify-center items-center "
+          >
             <HiShoppingBag className="text-4xl lg:text-5xl mr-5 lg:mr-3" />
             Pay ₹{subTotal}
-          </Link>
           </button>
         </div>
       </div>

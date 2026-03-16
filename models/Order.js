@@ -2,30 +2,44 @@ const mongoose = require("mongoose");
 
 const OrderSchema = new mongoose.Schema(
   {
-    userId: {
-      type: string,
+    email: {
+      type: String ,
       // ref: 'User',
       required: true,
     },
-    products: [
-      {
-        productId: {
-          type: string,
-          // ref: 'Product',
-          required: true,
-        },
-        // product: {
-        //    type: mongoose.Schema.Types.ObjectId,
-        //    ref: 'Product',
-        //    required: true
-        // },
-        quantity: {
-          type: Number,
-          required: true,
-          min: 1,
-        },
-      },
-    ],
+    orderId: {
+      type: String,
+      required: true,
+    },
+    paymentInfo: {
+      type: String,
+      default: "",
+    },
+
+    products: {
+      type: Object,
+      required: true,
+    },
+
+    // products: [
+    //   {
+    //     productId: {
+    //       type: String,
+    //       ref: 'Product',
+    //       required: true,
+    //     },
+    //     product: {
+    //        type: mongoose.Schema.Types.ObjectId,
+    //        ref: 'Product',
+    //        required: true
+    //     },
+    //     quantity: {
+    //       type: Number,
+    //       required: true,
+    //       min: 1,
+    //     },
+    //   },
+    // ],
     // orderDate: {
     //    type: Date,
     //    default: Date.now

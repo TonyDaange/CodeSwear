@@ -41,6 +41,7 @@ function MyApp({ Component, pageProps }) {
       setUser({ value: null });
       setKey(Math.random());
     }
+    // console.log("key " + key);
   }, [router.query]);
 
   const saveCart = (myCart) => {
@@ -122,15 +123,17 @@ function MyApp({ Component, pageProps }) {
         transitionTime={1000}
         loaderSpeed={1000}
       />
-      {key &&<Navbar
-        key={key}
-        user={user}
-        cart={cart}
-        addToCart={addToCart}
-        removeFromCart={removeFromCart}
-        clearCart={clearCart}
-        subTotal={subTotal}
-      />}
+      {key && (
+        <Navbar
+          key={key}
+          user={user}
+          cart={cart}
+          addToCart={addToCart}
+          removeFromCart={removeFromCart}
+          clearCart={clearCart}
+          subTotal={subTotal}
+        />
+      )}
       <main className="flex-1">
         <Component
           cart={cart}
