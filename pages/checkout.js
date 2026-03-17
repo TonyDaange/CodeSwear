@@ -4,10 +4,6 @@ import { HiShoppingBag } from "react-icons/hi2";
 import Head from "next/head";
 import Script from "next/script";
 import { useRouter } from "next/router";
-// import connectDb from "../../middleware/mongoose";
-// import Order from "../../models/Order";
-// Order;
-// connectDb;
 
 const checkout = ({ cart, addToCart, removeFromCart, subTotal, clearCart }) => {
   const [name, setName] = useState("");
@@ -86,7 +82,16 @@ const checkout = ({ cart, addToCart, removeFromCart, subTotal, clearCart }) => {
         if (verifyRes.ok && verification.success) {
           alert("Payment successful! Your order has been placed.");
           setTimeout(() => {
-            router.push("/order");
+            const mongoOrderId =
+              verification.orderId || order.orderId || order.id;
+            if (mongoOrderId) {
+              router.push("/order?id=" + mongoOrderId);
+            } else {
+              console.error("Missing MongoDB order id in response", {
+                verification,
+                order,
+              });
+            }
           }, 10000);
         } else {
           console.error("Payment verification failed", verification);

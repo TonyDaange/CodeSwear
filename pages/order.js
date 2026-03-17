@@ -1,34 +1,70 @@
+import mongoose from "mongoose";
+import { useRouter } from "next/router";
 import React from "react";
+import Order from "../models/Order";
 
-const Order = ({ cart, subTotal }) => {
+const MyOrder = ({ cart, subTotal, order }) => {
+  const products = order.products;
+  // const router = useRouter();
+  // const { id } = router.query;
+  // console.log(router);
+  console.log(order.products);
+  // console.log(order);
+  // console.log(id);
+
   return (
     <div className="lg:mt-35 xl:mt-25 mt-42 text-2xl">
       <section className="text-black body-font overflow-hidden">
-        <div className="container  py-24 mx-auto">
+        <div className=" lg:px-20 xl:px-60 py-24 mx-auto">
           <div className="lg:full  flex flex-wrap">
             <div className="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
               <h2 className="text-md title-font text-black tracking-widest text-center lg:text-left">
                 CODESWEAR
               </h2>
               <h1 className="text-black text-4xl title-font font-medium mb-4 text-center lg:text-left">
-                Order Id: #65864
+                Order Id: #{order.orderId}
               </h1>
 
               <p className="leading-relaxed mb-4 px-10 lg:px-0">
                 Your order has been successfully placed. Your order will be
                 delivered within 2-3 business days.
               </p>
+              <p className="leading-relaxed mb-4 px-10 lg:px-0">
+                Your Payment Status is: <b>{order.status}</b>
+              </p>
               <div className="flex mb-4 justify-between border-b-2 border-gray-300 px-10 lg:px-0 ">
-                <a className="w-2/5 py-2 text-2xl px-1 ">Item Description</a>
+                <a className="w-6/10 py-2 text-2xl px-1 ">Item Description</a>
                 <a className="w-1/5 py-2 text-2xl px-1">Quantity</a>
-                <a className="w-1/5 py-2 text-2xl px-1">Item Total</a>
+                <a className="w-1/5 py-2 text-2xl px-1 text-end lg:text-center">
+                  Item Total
+                </a>
               </div>
-              <div className="flex border-b border-gray-200 py-2  px-10 lg:px-0">
-                <span className="w-3/5 text-black">Hoodie SM (Black)</span>
-                <span className="w-1/5 ml-auto text-black">1</span>
-                <span className="w-1/5 ml-auto text-black">₹599.00</span>
-              </div>
-              <div className="flex border-b border-gray-200 py-2 px-10 lg:px-0">
+
+              {Object.keys(products).map(
+                (key) =>
+                  products[key].qty > 0 && (
+                    <div
+                      key={key}
+                      className="flex border-b border-gray-200 py-2  px-10 lg:px-0"
+                    >
+                      <span className="w-5/6 text-black">
+                        {products[key].name}(
+                        {products[key].size &&
+                        products[key].size !== "undefined"
+                          ? `${products[key].size}/${products[key].variant}`
+                          : `${products[key].variant}`}
+                        )
+                      </span>
+                      <span className="w-1/5 ml-auto text-black">
+                        {products[key].qty}
+                      </span>
+                      <span className="w-1/5 ml-auto text-black">
+                        ₹{products[key].price * products[key].qty}
+                      </span>
+                    </div>
+                  ),
+              )}
+              {/* <div className="flex border-b border-gray-200 py-2 px-10 lg:px-0">
                 <span className="w-3/5 text-black">Hoodie MD (Red)</span>
                 <span className="w-1/5 ml-auto text-black">1</span>
                 <span className="w-1/5 ml-auto text-black">₹599.00</span>
@@ -42,11 +78,11 @@ const Order = ({ cart, subTotal }) => {
                 <span className="w-3/5 text-black">Hoodie XL (Green)</span>
                 <span className="w-1/5 ml-auto text-black">1</span>
                 <span className="w-1/5 ml-auto text-black">₹599.00</span>
-              </div>
+              </div> */}
 
               <div className="flex py-4  px-10 lg:px-0">
                 <span className="title-font font-medium text-3xl text-black ">
-                  Subtotal: {subTotal}
+                  Subtotal: {order.amount}
                 </span>
                 <button className="flex ml-auto text-white bg-blue-500 border-0 lg:py-2 py-2 lg:px-6 px-3 focus:outline-none hover:bg-blue-600 rounded">
                   Track Order
@@ -77,4 +113,18 @@ const Order = ({ cart, subTotal }) => {
   );
 };
 
-export default Order;
+export async function getServerSideProps(context) {
+  if (!mongoose.connections[0].readyState) {
+    await mongoose.connect(process.env.MONGO_URI);
+  }
+
+  let order = await Order.findById(context.query.id);
+
+  return {
+    props: {
+      order: JSON.parse(JSON.stringify(order)),
+    }, // will be passed to the page component as props
+  };
+}
+
+export default MyOrder;

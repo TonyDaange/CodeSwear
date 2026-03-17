@@ -44,9 +44,11 @@ const handler = async (req, res) => {
         .json({ success: false, error: "Order not found" });
     }
     // Order.findByIdAndUpdate(order._id, { status: "Paid" }, { new: true });
-    return res
-      .status(200)
-      .json({ success: true, paymentId: razorpay_payment_id });
+    return res.status(200).json({
+      success: true,
+      paymentId: razorpay_payment_id,
+      orderId: order._id,
+    });
   } catch (error) {
     return res
       .status(500)
