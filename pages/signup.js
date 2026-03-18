@@ -1,7 +1,6 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 
 const Signup = () => {
@@ -167,13 +166,6 @@ const Signup = () => {
                 Sign up
               </button>
             </div>
-            <ToastContainer
-              bodyClassName="font-mono"
-              newestOnTop
-              rtl={false}
-              pauseOnFocusLoss
-              limit={1}
-            />
           </form>
 
           {/* <p className="mt-3 text-center text-xl text-gray-500">

@@ -1,34 +1,43 @@
 import connectDb from "../../middleware/mongoose";
 import Order from "../../models/Order";
+import Product from "../../models/Product";
 
 const handler = async (req, res) => {
-  // if (req.method === "POST") {
-  //   console.log(req.body);    
-  //   let { email, orderId, paymentInfo, products, address, amount } = req.body;
-  //   let order = new Order({
-  //     email,
-  //     orderId,
-  //     // paymentInfo,
-  //     // products,
-  //     address,
-  //     amount,
-  //   });
-  //   await order.save();
-  //   console.log(order);
-
-  //   return res.status(200).json({ success: true, orderId: order._id });
-  // } else {
-  //   return res.status(400).json({ error: "This method is not allowed" });
-  // }
-
   if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
+    return res
+      .status(405)
+      .json({ success: false, error: "Method not allowed" });
   }
 
   try {
+    let product,
+      sumtotal = 0;
+    let cart = req.body.cart;
+    for (let item in cart) {
+      console.log(item);
+      sumtotal += cart[item].price * cart[item].qty;
+      product = await Product.findOne({ slug: item });
+      if (product.price != cart[item].price) {
+        res.status(406).json({
+          success: false,
+          error:
+            "The price of some items in your cart have changed. Please try again",
+        });
+        return;
+      }
+    }
+    if (sumtotal !== req.body.subTotal) {
+      res.status(406).json({
+        success: false,
+        error:
+          "The price of some items in your cart have changed. Please try again",
+      });
+      return;
+    }
+
     const amount = Math.round(Number(req.body.subTotal) * 100);
     if (!amount || amount < 100) {
-      return res.status(400).json({ error: "Invalid amount" });
+      return res.status(400).json({ success: false, error: "Invalid amount" });
     }
 
     const keyIdRaw =
@@ -38,7 +47,9 @@ const handler = async (req, res) => {
     const keySecret = keySecretRaw ? keySecretRaw.trim() : "";
 
     if (!keyId || !keySecret) {
-      return res.status(500).json({ error: "Razorpay keys are missing" });
+      return res
+        .status(500)
+        .json({ success: false, error: "Razorpay keys are missing" });
     }
 
     const auth = Buffer.from(`${keyId}:${keySecret}`).toString("base64");
@@ -60,19 +71,40 @@ const handler = async (req, res) => {
     try {
       razorpayOrder = responseText ? JSON.parse(responseText) : {};
     } catch {
-      razorpayOrder = { error: "Invalid JSON from Razorpay", raw: responseText };
+      razorpayOrder = {
+        error: "Invalid JSON from Razorpay",
+        raw: responseText,
+      };
     }
     if (!orderResponse.ok) {
-      console.error("Razorpay order error:", orderResponse.status, razorpayOrder);
-      return res.status(orderResponse.status).json(razorpayOrder);
+      console.error(
+        "Razorpay order error:",
+        orderResponse.status,
+        razorpayOrder,
+      );
+      return res
+        .status(orderResponse.status)
+        .json({ success: false, ...razorpayOrder });
     }
 
     console.log(req.body);
     const { email, paymentInfo, products, address } = req.body;
     const productsToSave = products || req.body.cart;
     if (!productsToSave || Object.keys(productsToSave).length === 0) {
-      return res.status(400).json({ error: "Products are required" });
+      return res
+        .status(400)
+        .json({ success: false, error: "Products are required" });
     }
+
+    const success = Boolean(razorpayOrder && razorpayOrder.id);
+    if (!success) {
+      return res.status(500).json({
+        success: false,
+        error: "Failed to create Razorpay order",
+        raw: razorpayOrder,
+      });
+    }
+
     const order = new Order({
       email,
       orderId: razorpayOrder?.id || String(req.body.oid || Date.now()),
@@ -84,10 +116,13 @@ const handler = async (req, res) => {
     await order.save();
     console.log(order);
 
-    return res.status(200).json({ ...razorpayOrder, orderId: order._id });
+    return res
+      .status(200)
+      .json({ ...razorpayOrder, orderId: order._id, success: true });
   } catch (error) {
     console.error("Pretransaction error:", error);
     return res.status(500).json({
+      success: false,
       error: "Failed to create Razorpay order",
       message: error?.message,
     });

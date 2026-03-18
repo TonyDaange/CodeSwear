@@ -4,6 +4,8 @@ import Navbar from "../components/Navbar";
 import "../styles/globals.css";
 import { useRouter } from "next/router";
 import LoadingBar from "react-top-loading-bar";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
@@ -122,6 +124,17 @@ function MyApp({ Component, pageProps }) {
         onLoaderFinished={() => setProgress(0)}
         transitionTime={1000}
         loaderSpeed={1000}
+      />
+      <ToastContainer
+        position="top-right"
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        bodyClassName="font-mono"
       />
       {key && (
         <Navbar

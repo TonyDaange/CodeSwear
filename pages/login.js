@@ -1,8 +1,7 @@
 import Link from "next/link";
 import React, {useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const router = useRouter();
@@ -160,13 +159,6 @@ useEffect(() => {
                 Log in
               </button>
             </div>
-            <ToastContainer
-              bodyClassName="font-mono"
-              newestOnTop
-              rtl={false}
-              pauseOnFocusLoss
-              limit={1}
-            />
           </form>
         </div>
       </div>

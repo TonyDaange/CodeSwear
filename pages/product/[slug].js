@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Product from "../../models/Product";
 import mongoose from "mongoose";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 const ProductPage = ({ buyNow, addToCart, product, variant }) => {
   const router = useRouter();
@@ -12,10 +11,9 @@ const ProductPage = ({ buyNow, addToCart, product, variant }) => {
   const [pin, setPin] = useState();
   const [service, setService] = useState();
   const checkServiceability = async () => {
-    const pins = await fetch("/api/pincode");
-
-    const pincodes = await pins.json();
-    if (pincodes.includes(parseInt(pin))) {
+    let pins = await fetch("/api/pincode");
+    let pinJson = await pins.json();
+    if (Object.keys(pinJson).includes(pin)) {
       setService(true);
       // toast.success("We deliver to this pincode!");
       toast.success("We deliver to this pincode!", {
@@ -511,12 +509,6 @@ const ProductPage = ({ buyNow, addToCart, product, variant }) => {
           </div>
         </div>
       </div>
-      <ToastContainer
-        bodyClassName="font-mono"
-        newestOnTop
-        rtl={false}
-        pauseOnFocusLoss
-      />
     </section>
   );
 };

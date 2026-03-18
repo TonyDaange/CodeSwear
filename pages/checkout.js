@@ -4,6 +4,7 @@ import { HiShoppingBag } from "react-icons/hi2";
 import Head from "next/head";
 import Script from "next/script";
 import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 const checkout = ({ cart, addToCart, removeFromCart, subTotal, clearCart }) => {
   const [name, setName] = useState("");
@@ -20,6 +21,16 @@ const checkout = ({ cart, addToCart, removeFromCart, subTotal, clearCart }) => {
     e.preventDefault();
     if (!window.Razorpay) {
       console.error("Razorpay SDK failed to load");
+      toast.error(order.error, {
+        position: "top-left",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
       return;
     }
 
@@ -51,8 +62,22 @@ const checkout = ({ cart, addToCart, removeFromCart, subTotal, clearCart }) => {
     });
 
     const order = await orderReq.json();
-    if (!orderReq.ok) {
+    if (!orderReq.ok || !order?.success) {
       console.error("Failed to create order", order);
+      const msg =
+        order?.error ||
+        order?.message ||
+        "Could not start payment. Please try again.";
+      toast.error(msg, {
+        position: "top-left",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
       return;
     }
 
@@ -119,7 +144,7 @@ const checkout = ({ cart, addToCart, removeFromCart, subTotal, clearCart }) => {
     razorpay.open();
   }
 
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
     if (e.target.name === "name") {
       setName(e.target.value);
     } else if (e.target.name === "email") {
@@ -130,6 +155,21 @@ const checkout = ({ cart, addToCart, removeFromCart, subTotal, clearCart }) => {
       setAddress(e.target.value);
     } else if (e.target.name === "pincode") {
       setPincode(e.target.value);
+      // if (e.target.value.length == 6) {
+      if (e.target.value.length == 6) {
+        let pins = await fetch("/api/pincode");
+        let pinJson = await pins.json();
+        if (Object.keys(pinJson).includes(e.target.value)) {
+          setCity(pinJson[e.target.value][0]);
+          setState(pinJson[e.target.value][1]);
+        } else {
+          setState("");
+          setCity("");
+        }
+      } else {
+        setState("");
+        setCity("");
+      }
     } else {
       console.warn("Unhandled input change for", e.target.name);
     }
@@ -264,6 +304,7 @@ const checkout = ({ cart, addToCart, removeFromCart, subTotal, clearCart }) => {
             </label>
             <input
               value={state}
+              onChange={handleChange}
               required
               type="text"
               id="state"
@@ -280,6 +321,7 @@ const checkout = ({ cart, addToCart, removeFromCart, subTotal, clearCart }) => {
             </label>
             <input
               value={city}
+              onChange={handleChange}
               required
               type="text"
               id="city"
@@ -351,7 +393,7 @@ const checkout = ({ cart, addToCart, removeFromCart, subTotal, clearCart }) => {
             disabled={disabled}
             onClick={async (e) => {
               await initiatePayment(e);
-              clearCart();
+              // clearCart();
             }}
             className="disabled:bg-blue-400 w-full text-white bg-blue-600 border-0 py-2 px-8 focus:outline-none hover:bg-blue-500 rounded text-3xl font-semibold flex justify-center items-center "
           >

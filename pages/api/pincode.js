@@ -1,3 +1,9 @@
 export default function handler(req, res) {
-  res.status(200).json([400210, 410206, 422553, 431364, 442555,410221]);
+  let pincodes = {
+    422001: ["Nashik", "Maharashtra"],
+    411038: ["Kothrud, Pune", "Maharashtra"],
+    410221: ["Thobrevadi, Panvel, Raigad", "Maharashtra"],
+  };
+
+  res.status(200).json(pincodes);
 }

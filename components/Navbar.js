@@ -7,8 +7,7 @@ import { BsTrash3Fill } from "react-icons/bs";
 import { MdAccountBox } from "react-icons/md";
 import { HiOutlineLogout  } from "react-icons/hi";
 import { useRouter } from "next/router";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 const Navbar = ({
   cart,
@@ -257,12 +256,6 @@ const Navbar = ({
             </div>
           </div>
         </div>
-        <ToastContainer
-          bodyClassName="font-mono"
-          newestOnTop
-          rtl={false}
-          pauseOnFocusLoss
-        />
       </header>
     </div>
   );
