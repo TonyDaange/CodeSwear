@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { TiShoppingCart } from "react-icons/ti";
 import { AiFillMinusSquare, AiFillPlusSquare } from "react-icons/ai";
@@ -22,32 +22,22 @@ const Navbar = ({
   let router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [dropdown, setDropdown] = useState(false);
-  // const [disabled, setDisabled] = useState(false)
 
   // Cart items with quantities  ────┬──────························─────┬──────
   //                                 ╰── This is commented out for now ──╯
-  //   if (subTotal == 0) {
-  //   setDisabled(true)
-  // }
   const ToggleCart = () => {
     let sidebar = document.querySelector(".sidebar");
     sidebar.classList.toggle("translate-x-full");
     setIsOpen((prev) => !prev);
   };
 
-  // const increaseQuantity = (itemName) => {
-  //   setCart((prevCart) => ({
-  //     ...prevCart,
-  //     [itemName]: prevCart[itemName] + 1,
-  //   }));
-  // };
-
-  // const decreaseQuantity = (itemName) => {
-  //   setCart((prevCart) => ({
-  //     ...prevCart,
-  //     [itemName]: Math.max(1, prevCart[itemName] - 1),
-  //   }));
-  // };
+  useEffect(() => {
+    let exampted = ["/checkout", "/orders", "/order", "/myaccount"];
+    if (exampted.includes(router.pathname)) {
+      setIsOpen(false);
+    }
+    console.log(router.pathname);
+  }, []);
 
   // Calculate total items (sum each cart item's `qty`)
   const totalItems = Object.keys(cart || {}).reduce((sum, key) => {
