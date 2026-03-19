@@ -46,8 +46,32 @@ const handler = async (req, res) => {
     }
 
     const amount = Math.round(Number(req.body.subTotal) * 100);
-    if (!amount || amount < 100) {
-      return res.status(400).json({ success: false, error: "Invalid amount" });
+    if (!amount || amount <= 99) {
+      return res.status(400).json({
+        success: false,
+        error: "Cart Empty! Please build your cart and try again!",
+      });
+    }
+    if (req.body.phone.length !== 10) {
+      res.status(406).json({
+        success: false,
+        error: "Please enter 10 digit valid phone number",
+      });
+      return;
+    }
+    if (req.body.pincode.length !== 6) {
+      res.status(406).json({
+        success: false,
+        error: "Please enter 6 digit valid pincode",
+      });
+      return;
+    }
+    if (req.body.city.length === 0 || req.body.state.length === 0) {
+      res.status(406).json({
+        success: false,
+        error: "Please enter 6 digit valid pincode to get your city and state",
+      });
+      return;
     }
 
     const keyIdRaw =

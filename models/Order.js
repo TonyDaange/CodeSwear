@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const OrderSchema = new mongoose.Schema(
   {
     email: {
-      type: String ,
+      type: String,
       // ref: 'User',
       required: true,
     },
@@ -54,11 +54,16 @@ const OrderSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      // enum: ["Pending", "Shipped", "Delivered", "Cancelled"],
-      default: "Pending",
+      default: "Initiated",
+      required: true,
+    },
+    deliveryStatus: {
+      type: String,
+      default: "unshipped",
+      required: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 mongoose.models = {};
 export default mongoose.model("Order", OrderSchema);

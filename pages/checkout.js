@@ -35,7 +35,7 @@ const checkout = ({
   async function initiatePayment(e) {
     e.preventDefault();
     if (!window.Razorpay) {
-      error("Razorpay SDK failed to load");
+      console.error("Razorpay SDK failed to load");
       clearCart();
       toast.error(order.error, {
         position: "top-left",
@@ -64,8 +64,8 @@ const checkout = ({
       phone: phone,
       address: address,
       pincode: pincode,
-      // city: city,
-      // state: state,
+      city: city,
+      state: state,
     };
 
     const orderReq = await fetch("/api/pretransaction", {
@@ -79,7 +79,7 @@ const checkout = ({
 
     const order = await orderReq.json();
     if (!orderReq.ok || !order?.success) {
-      error("Failed to create order", order);
+      console.error("Failed to create order", order);
       const msg =
         order?.error ||
         order?.message ||
@@ -129,14 +129,14 @@ const checkout = ({
             if (mongoOrderId) {
               router.push("/order?id=" + mongoOrderId);
             } else {
-              error("Missing MongoDB order id in response", {
+              console.error("Missing MongoDB order id in response", {
                 verification,
                 order,
               });
             }
           }, 10000);
         } else {
-          error("Payment verification failed", verification);
+          console.error("Payment verification failed", verification);
         }
       },
       prefill: {
@@ -190,7 +190,7 @@ const checkout = ({
         setCity("");
       }
     } else {
-      warn("Unhandled input change for", e.target.name);
+      console.warn("Unhandled input change for", e.target.name);
     }
     setTimeout(() => {
       if (
@@ -198,7 +198,9 @@ const checkout = ({
         email.length >= 5 &&
         phone.length >= 10 &&
         address.length >= 10 &&
-        pincode.length >= 6
+        pincode.length >= 6 &&
+        city.length >= 2 &&
+        state.length >= 2
       ) {
         setDisabled(false);
       } else {
@@ -306,12 +308,13 @@ const checkout = ({
         <div className="px-2 lg:w-1/2">
           <div className=" mb-4 ">
             <label htmlFor="phone" className="leading-10 text-2xl to-black ">
-              Phone
+              Phone Number
             </label>
             <input
               value={phone}
               onChange={handleChange}
               required
+              placeholder="Your 10 Digit Phone Number"
               type="number"
               id="phone"
               name="phone"

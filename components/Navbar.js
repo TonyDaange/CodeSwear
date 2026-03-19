@@ -5,10 +5,9 @@ import { AiFillMinusSquare, AiFillPlusSquare } from "react-icons/ai";
 import { HiShoppingBag } from "react-icons/hi2";
 import { BsTrash3Fill } from "react-icons/bs";
 import { MdAccountBox } from "react-icons/md";
-import { HiOutlineLogout  } from "react-icons/hi";
+import { HiOutlineLogout } from "react-icons/hi";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
-
 
 const Navbar = ({
   cart,
@@ -23,10 +22,13 @@ const Navbar = ({
   let router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [dropdown, setDropdown] = useState(false);
+  // const [disabled, setDisabled] = useState(false)
 
   // Cart items with quantities  ────┬──────························─────┬──────
   //                                 ╰── This is commented out for now ──╯
-
+  //   if (subTotal == 0) {
+  //   setDisabled(true)
+  // }
   const ToggleCart = () => {
     let sidebar = document.querySelector(".sidebar");
     sidebar.classList.toggle("translate-x-full");
@@ -238,16 +240,21 @@ const Navbar = ({
               <div className="bg-gray-900 py-4 px-5 border-t border-gray-700 flex-shrink-0 flex lg:justify-between lg:space-x-5 lg:flex-row flex-col space-y-3">
                 <Link href="/checkout">
                   <button
+                    disabled={Object.keys(cart).length === 0}
                     onClick={ToggleCart}
-                    className="w-full text-white bg-blue-600 border-0 py-2 px-8 focus:outline-none hover:bg-blue-500 rounded text-xl font-semibold flex justify-center items-center "
+                    className="disabled:bg-blue-400 w-full text-white bg-blue-600 border-0 py-2 px-8 focus:outline-none hover:bg-blue-500 rounded text-xl font-semibold flex justify-center items-center "
                   >
                     <HiShoppingBag className="text-4xl lg:text-5xl mr-5 lg:mr-3" />
                     Check Out
                   </button>
                 </Link>
                 <button
-                  onClick={() => { clearCart(); ToggleCart(); }}
-                  className="w-full text-white bg-blue-600 border-0 py-2 lg:py-0 px-8 focus:outline-none hover:bg-blue-500 rounded text-xl font-semibold flex justify-center items-center lg:h-18"
+                  disabled={Object.keys(cart).length === 0}
+                  onClick={() => {
+                    clearCart();
+                    ToggleCart();
+                  }}
+                  className="disabled:bg-blue-400 w-full text-white bg-blue-600 border-0 py-2 lg:py-0 px-8 focus:outline-none hover:bg-blue-500 rounded text-xl font-semibold flex justify-center items-center lg:h-18"
                 >
                   <BsTrash3Fill className="text-3xl lg:text-5xl mr-3 lg:mr-3" />
                   Clear Cart
