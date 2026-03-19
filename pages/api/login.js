@@ -2,6 +2,7 @@ import connectDb from "../../middleware/mongoose";
 import User from "../../models/User";
 var CryptoJS = require("crypto-js");
 var jwt = require("jsonwebtoken");
+import { log } from "console";
 
 const handler = async (req, res) => {
   if (req.method == "POST") {
@@ -33,7 +34,9 @@ const handler = async (req, res) => {
         );
 
         console.log({ token: token });
-        return res.status(200).json({ success: true, token: token });
+        return res
+          .status(200)
+          .json({ success: true, token: token, email: user.email });
         // return res.status(200).json({  token });
       }
 
@@ -41,10 +44,8 @@ const handler = async (req, res) => {
         .status(200)
         .json({ success: false, error: "Invalid credentials" });
     } catch (error) {
-      console.error("Login error:", error);
-      return res
-        .status(500)
-        .json({ success: false, error: "Server error" });
+      error("Login error:", error);
+      return res.status(500).json({ success: false, error: "Server error" });
     }
   } else {
     return res.status(400).json({ error: "This method is not allowed" });

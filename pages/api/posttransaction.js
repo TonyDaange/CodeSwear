@@ -1,6 +1,7 @@
 import crypto from "crypto";
 import connectDb from "../../middleware/mongoose";
 import Order from "../../models/Order";
+import Product from "../../models/Product";
 
 const handler = async (req, res) => {
   if (req.method !== "POST") {
@@ -36,14 +37,19 @@ const handler = async (req, res) => {
     const order = await Order.findOneAndUpdate(
       { orderId: razorpay_order_id },
       { status: "Paid", paymentInfo: JSON.stringify(req.body) },
-      { new: true }
+      { new: true },
     );
     if (!order) {
-      return res
-        .status(404)
-        .json({ success: false, error: "Order not found" });
+      return res.status(404).json({ success: false, error: "Order not found" });
     }
-    // Order.findByIdAndUpdate(order._id, { status: "Paid" }, { new: true });
+    let products = order.products;
+    for (let slug in products) {
+      // log(products[slug].qty);
+      await Product.findOneAndUpdate(
+        { slug: slug },
+        { $inc: { availableQty: -products[slug].qty } },
+      );
+    }
     return res.status(200).json({
       success: true,
       paymentId: razorpay_payment_id,

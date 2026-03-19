@@ -13,13 +13,15 @@ const Orders = () => {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: JSON.stringify({ token: localStorage.getItem("token") }),
+        body: JSON.stringify({
+          token: JSON.parse(localStorage.getItem("myuser")).token,
+        }),
       });
       let res = await a.json();
       setOrders(res.orders);
       // console.log(res);
     };
-    if (!localStorage.getItem("token")) {
+    if (!localStorage.getItem("myuser")) {
       router.push("/");
     } else {
       fetchOrders();
@@ -79,23 +81,6 @@ const Orders = () => {
                       </tr>
                     );
                   })}
-                  {/* <tr className="border-b bg-white hover:bg-gray-100 py-9">
-                    <td className="px-4 py-4">2</td>
-                    <td className="px-4 py-4">
-                      Wear The Code Mug with Spoon (Dark Blue)
-                    </td>
-                    <td className="px-4 py-4">₹599</td>
-                    <td className="px-4 py-4">1</td>
-                  </tr>
-                  <tr className="border-b bg-white hover:bg-gray-100 py-9">
-                    <td className="px-4 py-4">3</td>
-
-                    <td className="px-4 py-4">
-                      Wear The Code Sticker Pack Square (Super Hero)
-                    </td>
-                    <td className="px-4 py-4">₹99</td>
-                    <td className="px-4 py-4">1</td>
-                  </tr> */}
                 </tbody>
               </table>
             </div>
@@ -105,18 +90,5 @@ const Orders = () => {
     </div>
   );
 };
-
-// export async function getServerSideProps(context) {
-//   if (!mongoose.connections[0].readyState) {
-//     await mongoose.connect(process.env.MONGO_URI);
-//   }
-//   // let orders = await Order.find({ user: user.id });
-//   let orders = await Order.find({});
-
-//   return {
-//     // props: { orders: JSON.parse(JSON.stringify(orders)) }, // will be passed to the page component as props
-//     props: { orders: orders }, // will be passed to the page component as props
-//   };
-// }
 
 export default Orders;

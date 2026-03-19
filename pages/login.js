@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, {useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 
@@ -14,14 +14,17 @@ const Login = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Accept": "application/json",
+        Accept: "application/json",
       },
       body: JSON.stringify(data),
     });
     let response = await res.json();
     console.log(response);
     if (response.success) {
-      localStorage.setItem("token", response.token);
+      localStorage.setItem(
+        "myuser",
+        JSON.stringify({ token: response.token, email: response.email }),
+      );
       toast.success("Logged in successfully!", {
         position: "top-left",
         autoClose: 2000,
@@ -33,7 +36,7 @@ const Login = () => {
       });
       setTimeout(() => {
         router.push("/");
-      }, 3000); 
+      }, 3000);
     } else {
       toast.error(response.error, {
         position: "top-left",
@@ -54,11 +57,11 @@ const Login = () => {
     }
   };
 
-useEffect(() => {
-  if (localStorage.getItem("token")) {
-    router.push("/");
-  }
-}, []);
+  useEffect(() => {
+    if (localStorage.getItem("myuser")) {
+      router.push("/");
+    }
+  }, []);
 
   return (
     <div className="lg:mt-35 xl:mt-25 mt-42">

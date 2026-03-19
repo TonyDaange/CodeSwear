@@ -24,26 +24,26 @@ function MyApp({ Component, pageProps }) {
     router.events.on("routeChangeComplete", () => {
       setProgress(100);
     });
-    // console.log("Oh.... this is UseEffeect \n by _app.js");
+    // log("Oh.... this is UseEffeect \n by _app.js");
     try {
       if (localStorage.getItem("cart")) {
         setCart(JSON.parse(localStorage.getItem("cart")));
         saveCart(JSON.parse(localStorage.getItem("cart")));
       }
     } catch (error) {
-      console.error("Error loading cart from localStorage:", error);
+      error("Error loading cart from localStorage:", error);
       localStorage.clear();
     }
-    const token = localStorage.getItem("token");
-    if (token) {
-      setUser({ value: token });
+    const myuser = JSON.parse(localStorage.getItem("myuser"));
+    if (myuser) {
+      setUser({ value: myuser.token, email: myuser.email });
       setKey(Math.random());
     }
-    if (!token) {
+    if (!myuser) {
       setUser({ value: null });
       setKey(Math.random());
     }
-    // console.log("key " + key);
+    // log("key " + key);
   }, [router.query]);
 
   const saveCart = (myCart) => {
@@ -51,8 +51,8 @@ function MyApp({ Component, pageProps }) {
     let subt = 0;
     let keys = Object.keys(myCart);
     for (let i = 0; i < keys.length; i++) {
-      // console.log(myCart[keys[i]]);
-      // console.log(keys);
+      // log(myCart[keys[i]]);
+      // log(keys);
       subt += myCart[keys[i]].price * myCart[keys[i]].qty;
     }
     setSubTotal(subt);

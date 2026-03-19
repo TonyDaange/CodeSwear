@@ -9,6 +9,7 @@ import { HiOutlineLogout  } from "react-icons/hi";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 
+
 const Navbar = ({
   cart,
   addToCart,
@@ -62,7 +63,7 @@ const Navbar = ({
     setDropdown(!dropdown);
   };
   const logOut = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("myuser");
     setDropdown(false);
     toast.success("Logged out successfully!", {
       position: "top-left",
@@ -115,8 +116,7 @@ const Navbar = ({
               <button className=" relative pr-1 flex ">
                 {user.value && (
                   <MdAccountBox
-                    onClick={onDropdown}
-                    onMouseLeave={offfDropdown}
+                    onMouseOver={onDropdown}
                     className="hover:text-blue-800 text-5xl lg:text-7xl xl:text-6xl cursor-pointer mx-1"
                   />
                 )}

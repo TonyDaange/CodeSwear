@@ -2,6 +2,8 @@ import connectDb from "../../middleware/mongoose";
 import Order from "../../models/Order";
 import Product from "../../models/Product";
 
+import { log, error } from "console";
+
 const handler = async (req, res) => {
   if (req.method !== "POST") {
     return res
@@ -14,9 +16,17 @@ const handler = async (req, res) => {
       sumtotal = 0;
     let cart = req.body.cart;
     for (let item in cart) {
-      console.log(item);
+      log(item);
       sumtotal += cart[item].price * cart[item].qty;
       product = await Product.findOne({ slug: item });
+      if (cart[item].qty > product.availableQty) {
+        res.status(500).json({
+          success: false,
+          error:
+            "Some items in your cart went out of stock! Please try again later.",
+        });
+        return;
+      }
       if (product.price != cart[item].price) {
         res.status(406).json({
           success: false,
@@ -77,17 +87,13 @@ const handler = async (req, res) => {
       };
     }
     if (!orderResponse.ok) {
-      console.error(
-        "Razorpay order error:",
-        orderResponse.status,
-        razorpayOrder,
-      );
+      error("Razorpay order error:", orderResponse.status, razorpayOrder);
       return res
         .status(orderResponse.status)
         .json({ success: false, ...razorpayOrder });
     }
 
-    console.log(req.body);
+    log(req.body);
     const { email, paymentInfo, products, address } = req.body;
     const productsToSave = products || req.body.cart;
     if (!productsToSave || Object.keys(productsToSave).length === 0) {
@@ -114,13 +120,13 @@ const handler = async (req, res) => {
       amount: amount / 100,
     });
     await order.save();
-    console.log(order);
+    log(order);
 
     return res
       .status(200)
       .json({ ...razorpayOrder, orderId: order._id, success: true });
   } catch (error) {
-    console.error("Pretransaction error:", error);
+    error("Pretransaction error:", error);
     return res.status(500).json({
       success: false,
       error: "Failed to create Razorpay order",

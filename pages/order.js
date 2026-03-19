@@ -23,7 +23,7 @@ const MyOrder = ({ cart, subTotal, order }) => {
               </h2>
               <h1 className="text-black text-4xl title-font font-medium mb-4 text-center lg:text-left">
                 Order Id: #{order.orderId}
-              </h1>yarn
+              </h1>
 
               <p className="leading-relaxed mb-4 px-10 lg:px-0">
                 Your order has been successfully placed. Your order will be

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiFillMinusSquare, AiFillPlusSquare } from "react-icons/ai";
 import { HiShoppingBag } from "react-icons/hi2";
 import Head from "next/head";
@@ -6,7 +6,14 @@ import Script from "next/script";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 
-const checkout = ({ cart, addToCart, removeFromCart, subTotal, clearCart }) => {
+const checkout = ({
+  cart,
+  addToCart,
+  removeFromCart,
+  subTotal,
+  clearCart,
+  // user,
+}) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -14,13 +21,22 @@ const checkout = ({ cart, addToCart, removeFromCart, subTotal, clearCart }) => {
   const [pincode, setPincode] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
+  const [user, setUser] = useState({ value: null });
   const [disabled, setDisabled] = useState(true);
   const router = useRouter();
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("myuser"));
+    if (user.token) {
+      setUser(user);
+      setEmail(user.email);
+    }
+  }, []);
 
   async function initiatePayment(e) {
     e.preventDefault();
     if (!window.Razorpay) {
-      console.error("Razorpay SDK failed to load");
+      error("Razorpay SDK failed to load");
+      clearCart();
       toast.error(order.error, {
         position: "top-left",
         autoClose: 3000,
@@ -63,7 +79,7 @@ const checkout = ({ cart, addToCart, removeFromCart, subTotal, clearCart }) => {
 
     const order = await orderReq.json();
     if (!orderReq.ok || !order?.success) {
-      console.error("Failed to create order", order);
+      error("Failed to create order", order);
       const msg =
         order?.error ||
         order?.message ||
@@ -105,6 +121,7 @@ const checkout = ({ cart, addToCart, removeFromCart, subTotal, clearCart }) => {
 
         const verification = await verifyRes.json();
         if (verifyRes.ok && verification.success) {
+          clearCart();
           alert("Payment successful! Your order has been placed.");
           setTimeout(() => {
             const mongoOrderId =
@@ -112,14 +129,14 @@ const checkout = ({ cart, addToCart, removeFromCart, subTotal, clearCart }) => {
             if (mongoOrderId) {
               router.push("/order?id=" + mongoOrderId);
             } else {
-              console.error("Missing MongoDB order id in response", {
+              error("Missing MongoDB order id in response", {
                 verification,
                 order,
               });
             }
           }, 10000);
         } else {
-          console.error("Payment verification failed", verification);
+          error("Payment verification failed", verification);
         }
       },
       prefill: {
@@ -145,6 +162,8 @@ const checkout = ({ cart, addToCart, removeFromCart, subTotal, clearCart }) => {
   }
 
   const handleChange = async (e) => {
+    console.log(user, email);
+
     if (e.target.name === "name") {
       setName(e.target.value);
     } else if (e.target.name === "email") {
@@ -171,7 +190,7 @@ const checkout = ({ cart, addToCart, removeFromCart, subTotal, clearCart }) => {
         setCity("");
       }
     } else {
-      console.warn("Unhandled input change for", e.target.name);
+      warn("Unhandled input change for", e.target.name);
     }
     setTimeout(() => {
       if (
@@ -231,7 +250,29 @@ const checkout = ({ cart, addToCart, removeFromCart, subTotal, clearCart }) => {
             <label htmlFor="email" className="leading-10 text-2xl to-black ">
               Email
             </label>
-            <input
+            {user && user.value ? (
+              <input
+                // onChange={handleChange}
+                value={user.email}
+                required
+                type="email"
+                id="email"
+                name="email"
+                className="w-full bg-white border-2 border-gray-300 focus:border-blue-500 focus:ring-3 focus:ring-blue-200 text-[18px] outline-none text-gray-700 py-1 px-3 leading-10 transition-colors duration-300 ease-in-out rounded-[5px] mt-3 mb-5"
+                readOnly
+              />
+            ) : (
+              <input
+                onChange={handleChange}
+                value={email}
+                required
+                type="email"
+                id="email"
+                name="email"
+                className="w-full bg-white border-2 border-gray-300 focus:border-blue-500 focus:ring-3 focus:ring-blue-200 text-[18px] outline-none text-gray-700 py-1 px-3 leading-10 transition-colors duration-300 ease-in-out rounded-[5px] mt-3 mb-5"
+              />
+            )}
+            {/* <input
               onChange={handleChange}
               value={email}
               required
@@ -239,7 +280,7 @@ const checkout = ({ cart, addToCart, removeFromCart, subTotal, clearCart }) => {
               id="email"
               name="email"
               className="w-full bg-white border-2 border-gray-300 focus:border-blue-500 focus:ring-3 focus:ring-blue-200 text-[18px] outline-none text-gray-700 py-1 px-3 leading-10 transition-colors duration-300 ease-in-out rounded-[5px] mt-3 mb-5"
-            />
+            /> */}
           </div>
         </div>
       </form>
@@ -393,7 +434,6 @@ const checkout = ({ cart, addToCart, removeFromCart, subTotal, clearCart }) => {
             disabled={disabled}
             onClick={async (e) => {
               await initiatePayment(e);
-              // clearCart();
             }}
             className="disabled:bg-blue-400 w-full text-white bg-blue-600 border-0 py-2 px-8 focus:outline-none hover:bg-blue-500 rounded text-3xl font-semibold flex justify-center items-center "
           >
