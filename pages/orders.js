@@ -9,7 +9,7 @@ const Orders = () => {
     const fetchOrders = async () => {
       let a = await fetch("/api/myorders", {
         method: "POST",
-        headers: {
+        headers: { 
           "Content-Type": "application/json",
           Accept: "application/json",
         },

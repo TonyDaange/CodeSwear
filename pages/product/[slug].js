@@ -64,6 +64,11 @@ const ProductPage = ({ buyNow, addToCart, product, variant }) => {
   const [currentSlug, setCurrentSlug] = useState(
     product && product.slug ? product.slug : "",
   );
+  const currentQty =
+    currentProduct && typeof currentProduct.availableQty === "number"
+      ? currentProduct.availableQty
+      : product.availableQty;
+  const isOutOfStock = currentQty <= 0;
 
   const refreshVariant = async (newColor, newSize) => {
     if (!variant) return;
@@ -424,11 +429,18 @@ const ProductPage = ({ buyNow, addToCart, product, variant }) => {
               </div>
             </div>
             <div className="flex">
-              <span className="title-font font-medium text-3xl text-gray-900">
-                ₹{(currentProduct && currentProduct.price) || product.price}.00
-              </span>
+              {isOutOfStock ? (
+                <span className="title-font font-medium text-3xl text-red-600">
+                  Out of Stock
+                </span>
+              ) : (
+                <span className="title-font font-medium text-3xl text-gray-900">
+                  ₹{(currentProduct && currentProduct.price) || product.price}.00
+                </span>
+              )}
               <button
                 onClick={() => {
+                  if (isOutOfStock) return;
                   let proprice = product.price;
                   buyNow(
                     currentSlug || slug,
@@ -439,12 +451,17 @@ const ProductPage = ({ buyNow, addToCart, product, variant }) => {
                     color,
                   );
                 }}
-                className="flex md:mx-5 mx-2 text-white bg-blue-500 border-0 lg:py-2 py-1 md:px-4 xl:px-6 px-2 focus:outline-none hover:bg-blue-800 rounded"
+                disabled={isOutOfStock}
+                aria-disabled={isOutOfStock}
+                className={`disabled:bg-blue-400 flex md:mx-5 mx-2 text-white bg-blue-500 border-0 lg:py-2 py-1 md:px-4 xl:px-6 px-2 focus:outline-none hover:bg-blue-800 rounded ${
+                  isOutOfStock ? "opacity-50 cursor-not-allowed" : ""
+                }`}
               >
                 Buy Now
               </button>
               <button
                 onClick={() => {
+                  if (isOutOfStock) return;
                   let proprice = product.price;
                   const finalSize =
                     size && size !== "default" && size !== "undefined"
@@ -459,7 +476,11 @@ const ProductPage = ({ buyNow, addToCart, product, variant }) => {
                     color,
                   );
                 }}
-                className="flex  text-white bg-blue-500 border-0 lg:py-2 py-1 md:px-4 xl:px-6 px-2 focus:outline-none hover:bg-blue-800 rounded"
+                disabled={isOutOfStock}
+                aria-disabled={isOutOfStock}
+                className={`disabled:bg-blue-400 flex  text-white bg-blue-500 border-0 lg:py-2 py-1 md:px-4 xl:px-6 px-2 focus:outline-none hover:bg-blue-800 rounded ${
+                  isOutOfStock ? "opacity-50 cursor-not-allowed" : ""
+                }`}
               >
                 Add to Cart
               </button>

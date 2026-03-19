@@ -37,7 +37,17 @@ const Hoodies = ({ products }) => {
                       <h2 className="text-gray-900 title-font text-2xl font-medium">
                         {products[item].name}
                       </h2>
-                      <p className="mt-1">₹{products[item].price}</p>
+                      {!products[item].inStock && (
+                        <div>
+                          <div className="my-10"></div>
+                          <span className=" text-2xl text-red-600 border border-red-600 rounded px-2 align-bottom">
+                            Out of Stock
+                          </span>
+                        </div>
+                      )}
+                      {products[item].inStock && (
+                        <p className="mt-1">₹{products[item].price}</p>
+                      )}
                       <div className="mt-1 text-gray-500">
                         {products[item].size.includes("XS") && (
                           <span className="border px-1 mx-1 text-center border-gray-400">
@@ -122,10 +132,14 @@ export async function getServerSideProps() {
       ) {
         hoodies[item.name].size.push(item.size);
       }
+      if (item.availableQty > 0) {
+        hoodies[item.name].inStock = true;
+      }
     } else {
       hoodies[item.name] = JSON.parse(JSON.stringify(item));
       hoodies[item.name].color = item.availableQty > 0 ? [item.color] : [];
       hoodies[item.name].size = item.availableQty > 0 ? [item.size] : [];
+      hoodies[item.name].inStock = item.availableQty > 0;
     }
   }
   return {
@@ -134,3 +148,8 @@ export async function getServerSideProps() {
 }
 
 export default Hoodies;
+
+
+
+
+

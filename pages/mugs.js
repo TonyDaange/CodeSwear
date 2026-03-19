@@ -38,9 +38,17 @@ const Mugs = ({ products }) => {
                       <h2 className="text-gray-900 title-font text-2xl font-medium">
                         {products[item].name}
                       </h2>
-                      <p className="mt-1 text-gray-500">
-                        ₹{products[item].price}
-                      </p>
+                      {!products[item].inStock && (
+                        <div>
+                          <div className="my-10"></div>
+                          <span className=" text-2xl text-red-600 border border-red-600 rounded px-2 align-bottom">
+                            Out of Stock
+                          </span>
+                        </div>
+                      )}
+                      {products[item].inStock && (
+                        <p className="mt-1">₹{products[item].price}</p>
+                      )}
                       <div className="mt-1 text-gray-500">
                         {products[item].color.includes("Black") && (
                           <button className="border-2 border-gray-300 ml-1 bg-black rounded-full w-7 h-7 focus:outline-none"></button>
@@ -90,10 +98,14 @@ export async function getServerSideProps() {
       if (!mugs[item.name].size.includes(item.size) && item.availableQty > 0) {
         mugs[item.name].size.push(item.size);
       }
+      if (item.availableQty > 0) {
+        mugs[item.name].inStock = true;
+      }
     } else {
       mugs[item.name] = JSON.parse(JSON.stringify(item));
       mugs[item.name].color = item.availableQty > 0 ? [item.color] : [];
       mugs[item.name].size = item.availableQty > 0 ? [item.size] : [];
+      mugs[item.name].inStock = item.availableQty > 0;
     }
   }
   return {
@@ -102,3 +114,8 @@ export async function getServerSideProps() {
 }
 
 export default Mugs;
+
+
+
+
+

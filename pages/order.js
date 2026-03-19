@@ -1,16 +1,19 @@
 import mongoose from "mongoose";
-import { useRouter } from "next/router";
-import React from "react";
+// import { useRouter } from "next/router";
+import React, { useState } from "react";
 import Order from "../models/Order";
 
 const MyOrder = ({ cart, subTotal, order }) => {
   const products = order.products;
+  // const [date, setDate] = useState(order.createdAt);
   // const router = useRouter();
   // const { id } = router.query;
   // console.log(router);
   console.log(order.products);
   // console.log(order);
   // console.log(id);
+  // let opt = { weekday: "long", year: 'numric', month: 'long', day: 'numric' }
+  const date = new Date(order.createdAt);
 
   return (
     <div className="lg:mt-35 xl:mt-25 mt-42 text-2xl">
@@ -28,6 +31,20 @@ const MyOrder = ({ cart, subTotal, order }) => {
               <p className="leading-relaxed mb-4 px-10 lg:px-0">
                 Your order has been successfully placed. Your order will be
                 delivered within 2-3 business days.
+              </p>
+              <p className="leading-relaxed mb-4 px-10 lg:px-0">
+                Order Placed On:{" "}
+                <b>
+                  {date &&
+                    date.toLocaleString("mr-IN", {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                      weekday: "long",
+                      hour: "numeric",
+                      minute: "numeric",
+                    })}
+                </b>
               </p>
               <p className="leading-relaxed mb-4 px-10 lg:px-0">
                 Your Payment Status is: <b>{order.status}</b>

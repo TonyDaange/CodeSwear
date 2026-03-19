@@ -16,11 +16,15 @@ const handler = async (req, res) => {
       return res.status(400).json({ success: false, error: "Missing fields" });
     }
 
-    const keySecret = process.env.RAZORPAY_KEY_SECRET;
-    if (!keySecret) {
+    const keyIdRaw =
+      process.env.RAZORPAY_KEY_ID || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
+    const keySecretRaw = process.env.RAZORPAY_KEY_SECRET;
+    const keyId = keyIdRaw ? keyIdRaw.trim() : "";
+    const keySecret = keySecretRaw ? keySecretRaw.trim() : "";
+    if (!keyId || !keySecret) {
       return res
         .status(500)
-        .json({ success: false, error: "Missing Razorpay secret key" });
+        .json({ success: false, error: "Missing Razorpay keys" });
     }
 
     const generatedSignature = crypto
@@ -34,15 +38,69 @@ const handler = async (req, res) => {
         .json({ success: false, error: "Invalid signature" });
     }
 
-    const order = await Order.findOneAndUpdate(
-      { orderId: razorpay_order_id },
-      { status: "Paid", paymentInfo: JSON.stringify(req.body) },
-      { new: true },
-    );
+    const order = await Order.findOne({ orderId: razorpay_order_id });
     if (!order) {
       return res.status(404).json({ success: false, error: "Order not found" });
     }
-    let products = order.products;
+
+    if (order.status === "Paid") {
+      return res.status(200).json({
+        success: true,
+        paymentId: razorpay_payment_id,
+        orderId: order._id,
+        alreadyPaid: true,
+      });
+    }
+
+    const auth = Buffer.from(`${keyId}:${keySecret}`).toString("base64");
+    const payRes = await fetch(
+      `https://api.razorpay.com/v1/payments/${razorpay_payment_id}`,
+      {
+        method: "GET",
+        headers: { Authorization: `Basic ${auth}` },
+      },
+    );
+
+    const payText = await payRes.text();
+    let payment = {};
+    try {
+      payment = payText ? JSON.parse(payText) : {};
+    } catch {
+      payment = { error: "Invalid JSON from Razorpay", raw: payText };
+    }
+    if (!payRes.ok) {
+      return res
+        .status(payRes.status)
+        .json({ success: false, error: "Payment fetch failed", ...payment });
+    }
+
+    const expectedAmount = Math.round(Number(order.amount) * 100);
+    if (
+      payment.amount !== expectedAmount ||
+      payment.currency !== "INR" ||
+      payment.status !== "captured"
+    ) {
+      return res.status(400).json({
+        success: false,
+        error: "Payment mismatch",
+        details: {
+          amount: payment.amount,
+          currency: payment.currency,
+          status: payment.status,
+        },
+      });
+    }
+
+    const updated = await Order.findOneAndUpdate(
+      { _id: order._id, status: { $ne: "Paid" } },
+      { status: "Paid", paymentInfo: JSON.stringify(req.body) },
+      { new: true },
+    );
+    if (!updated) {
+      return res.status(409).json({ success: false, error: "Already paid" });
+    }
+
+    let products = updated.products;
     for (let slug in products) {
       // log(products[slug].qty);
       await Product.findOneAndUpdate(
@@ -53,7 +111,7 @@ const handler = async (req, res) => {
     return res.status(200).json({
       success: true,
       paymentId: razorpay_payment_id,
-      orderId: order._id,
+      orderId: updated._id,
     });
   } catch (error) {
     return res

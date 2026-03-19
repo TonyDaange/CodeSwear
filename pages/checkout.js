@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useEffectEvent, useState } from "react";
 import { AiFillMinusSquare, AiFillPlusSquare } from "react-icons/ai";
 import { HiShoppingBag } from "react-icons/hi2";
 import Head from "next/head";
@@ -31,6 +31,20 @@ const checkout = ({
       setEmail(user.email);
     }
   }, []);
+
+  useEffect(() => {
+    if (
+      name.length >= 5 &&
+      email.length >= 5 &&
+      phone.length == 10 &&
+      address.length >= 10 &&
+      pincode.length == 6
+    ) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }, [name, email, phone, address, pincode]);
 
   async function initiatePayment(e) {
     e.preventDefault();
@@ -196,11 +210,9 @@ const checkout = ({
       if (
         name.length >= 5 &&
         email.length >= 5 &&
-        phone.length >= 10 &&
+        phone.length == 10 &&
         address.length >= 10 &&
-        pincode.length >= 6 &&
-        city.length >= 2 &&
-        state.length >= 2
+        pincode.length == 6
       ) {
         setDisabled(false);
       } else {
@@ -274,35 +286,9 @@ const checkout = ({
                 className="w-full bg-white border-2 border-gray-300 focus:border-blue-500 focus:ring-3 focus:ring-blue-200 text-[18px] outline-none text-gray-700 py-1 px-3 leading-10 transition-colors duration-300 ease-in-out rounded-[5px] mt-3 mb-5"
               />
             )}
-            {/* <input
-              onChange={handleChange}
-              value={email}
-              required
-              type="email"
-              id="email"
-              name="email"
-              className="w-full bg-white border-2 border-gray-300 focus:border-blue-500 focus:ring-3 focus:ring-blue-200 text-[18px] outline-none text-gray-700 py-1 px-3 leading-10 transition-colors duration-300 ease-in-out rounded-[5px] mt-3 mb-5"
-            /> */}
           </div>
         </div>
       </form>
-
-      <div className="px-2 w-full">
-        <div className="mb-4 ml-10 mr-10 lg:mr-0 lg:ml-0">
-          <label htmlFor="address" className="leading-10 text-2xl to-black ">
-            Address
-          </label>
-          <textarea
-            onChange={handleChange}
-            value={address}
-            required
-            rows={5}
-            id="address"
-            name="address"
-            className="w-full bg-white border-2 border-gray-300 focus:border-blue-500 focus:ring-3 focus:ring-blue-200 text-[18px] outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-300 ease-in-out rounded-[5px] mt-3  mb-3"
-          ></textarea>
-        </div>
-      </div>
 
       <form className=" lg:flex ml-10 mr-10 lg:mr-0 lg:ml-0 justify-center ">
         <div className="px-2 lg:w-1/2">
@@ -376,6 +362,24 @@ const checkout = ({
           </div>
         </div>
       </form>
+
+      <div className="px-2 w-full">
+        <div className="mb-4 ml-10 mr-10 lg:mr-0 lg:ml-0">
+          <label htmlFor="address" className="leading-10 text-2xl to-black ">
+            Address
+          </label>
+          <textarea
+            onChange={handleChange}
+            value={address}
+            required
+            rows={5}
+            id="address"
+            name="address"
+            className="w-full bg-white border-2 border-gray-300 focus:border-blue-500 focus:ring-3 focus:ring-blue-200 text-[18px] outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-300 ease-in-out rounded-[5px] mt-3  mb-3"
+          ></textarea>
+        </div>
+      </div>
+
       <h2 className="text-4xl mt-25 mb-10 text-center lg:text-left font-extrabold">
         2. Review cart items & Pay
       </h2>

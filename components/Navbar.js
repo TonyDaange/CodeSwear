@@ -149,7 +149,7 @@ const Navbar = ({
                     href="/orders"
                     className="block px-4 py-2 text-xl text-white hover:bg-gray-700"
                   >
-                    Orders
+                    My Orders
                   </Link>
                   <hr className="border-gray-600 " />
                   <button

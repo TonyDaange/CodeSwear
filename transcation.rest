@@ -1,9 +1,17 @@
+
+
+
+
+POST http://localhost:4200/api/posttransaction
+Content-Type: application/json
+Accept: application/json
+
 {
   "oid": 395475277368,
   "cart": {
     "wear-the-code-sticker-pack-square-super-hero": {
-      "qty": 1,
-      "price": 1,
+      "qty": 33,
+      "price": 1000,
       "name": "Wear The Code Sticker Pack Square",
       "size": "undefined",
       "variant": "Super Hero"
