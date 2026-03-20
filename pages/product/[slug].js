@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Product from "../../models/Product";
 import mongoose from "mongoose";
 import { toast } from "react-toastify";
+import Error from "next/error";
 
-const ProductPage = ({ buyNow, addToCart, product, variant }) => {
+const ProductPage = ({ buyNow, addToCart, product, variant, error }) => {
   const router = useRouter();
   const { slug } = router.query;
 
@@ -58,16 +59,27 @@ const ProductPage = ({ buyNow, addToCart, product, variant }) => {
       : "";
   })();
 
-  const [color, setColor] = useState(defaultColor);
-  const [size, setSize] = useState(defaultSize);
+  const [color, setColor] = useState();
+  const [size, setSize] = useState();
+  useEffect(() => {
+    if (!error) {
+      setColor(defaultColor);
+      setSize(defaultSize);
+    }
+  }, [router.query]);
+
   const [currentProduct, setCurrentProduct] = useState(product);
   const [currentSlug, setCurrentSlug] = useState(
     product && product.slug ? product.slug : "",
   );
+
   const currentQty =
-    currentProduct && typeof currentProduct.availableQty === "number"
+    typeof currentProduct?.availableQty === "number"
       ? currentProduct.availableQty
-      : product.availableQty;
+      : typeof product?.availableQty === "number"
+        ? product.availableQty
+        : 0;
+
   const isOutOfStock = currentQty <= 0;
 
   const refreshVariant = async (newColor, newSize) => {
@@ -107,7 +119,9 @@ const ProductPage = ({ buyNow, addToCart, product, variant }) => {
       console.warn("router.replace failed", e);
     }
   };
-
+  if (error == 404) {
+    return <Error statusCode={404} />;
+  }
   return (
     <section className="text-gray-600 body-font overflow-hidden lg:mt-35 xl:mt-25 mt-65 text-2xl">
       <div className="px-5 py-24 mx-auto">
@@ -128,7 +142,9 @@ const ProductPage = ({ buyNow, addToCart, product, variant }) => {
             </h2>
             <h1 className="text-gray-900 text-4xl title-font font-medium mb-1">
               {(currentProduct && currentProduct.name) || product.name}
-              {size && size !== "undefined" ? ` (${size}/${color})` : ` (${color})`}
+              {size && size !== "undefined"
+                ? ` (${size}/${color})`
+                : ` (${color})`}
             </h1>
             <div className="flex mb-4 ">
               <span className="flex items-center ">
@@ -333,7 +349,7 @@ const ProductPage = ({ buyNow, addToCart, product, variant }) => {
                       Super Hero
                     </button>
                   )}
-              
+
                 {Object.keys(variant).includes("Business") &&
                   Object.keys(variant["Business"]).includes(size) && (
                     <button
@@ -435,7 +451,8 @@ const ProductPage = ({ buyNow, addToCart, product, variant }) => {
                 </span>
               ) : (
                 <span className="title-font font-medium text-3xl text-gray-900">
-                  ₹{(currentProduct && currentProduct.price) || product.price}.00
+                  ₹{(currentProduct && currentProduct.price) || product.price}
+                  .00
                 </span>
               )}
               <button
@@ -535,10 +552,19 @@ const ProductPage = ({ buyNow, addToCart, product, variant }) => {
 };
 
 export async function getServerSideProps(context) {
+  let error = null;
   if (!mongoose.connections[0].readyState) {
     await mongoose.connect(process.env.MONGO_URI);
   }
   let product = await Product.findOne({ slug: context.query.slug });
+  if (product == null) {
+    // res.status(404).json({ error: "404 error" });
+    return {
+      props: {
+        error: 404,
+      }, // will be passed to the page component as props
+    };
+  }
   let variant = await Product.find({
     name: product.name,
     category: product.category,
@@ -554,6 +580,7 @@ export async function getServerSideProps(context) {
   }
   return {
     props: {
+      error:error,
       product: JSON.parse(JSON.stringify(product)),
       variant: JSON.parse(JSON.stringify(colorSizeSlug)),
     }, // will be passed to the page component as props
