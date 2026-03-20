@@ -69,7 +69,7 @@ const handler = async (req, res) => {
     if (req.body.city.length === 0 || req.body.state.length === 0) {
       res.status(406).json({
         success: false,
-        error: "Please enter 6 digit valid pincode to get your city and state",
+        error: "Sorry! This pincode is not serviceable.",
       });
       return;
     }

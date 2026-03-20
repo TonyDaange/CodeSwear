@@ -93,7 +93,11 @@ const handler = async (req, res) => {
 
     const updated = await Order.findOneAndUpdate(
       { _id: order._id, status: { $ne: "Paid" } },
-      { status: "Paid", paymentInfo: JSON.stringify(req.body) },
+      {
+        status: "Paid",
+        paymentInfo: JSON.stringify(req.body),
+        transactionId: req.body.razorpay_payment_id,
+      },
       { new: true },
     );
     if (!updated) {

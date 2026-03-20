@@ -7,11 +7,18 @@ const OrderSchema = new mongoose.Schema(
       // ref: 'User',
       required: true,
     },
+
     orderId: {
       type: String,
       required: true,
     },
+
     paymentInfo: {
+      type: String,
+      default: "",
+    },
+
+    transactionId: {
       type: String,
       default: "",
     },
@@ -54,7 +61,7 @@ const OrderSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      default: "Initiated",
+      default: "Pending",
       required: true,
     },
     deliveryStatus: {

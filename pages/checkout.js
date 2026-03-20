@@ -26,7 +26,7 @@ const checkout = ({
   const router = useRouter();
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("myuser"));
-    if (user.token) {
+    if (user && user.token) {
       setUser(user);
       setEmail(user.email);
     }
@@ -94,6 +94,16 @@ const checkout = ({
     const order = await orderReq.json();
     if (!orderReq.ok || !order?.success) {
       console.error("Failed to create order", order);
+      const cartClearErrors = new Set([
+        "Some items in your cart went out of stock! Please try again later.",
+        "The price of some items in your cart have changed. Please try again",
+      ]);
+      if (
+        cartClearErrors.has(order?.error) ||
+        (order?.cart && Object.keys(order.cart).length === 0)
+      ) {
+        clearCart();
+      }
       const msg =
         order?.error ||
         order?.message ||
@@ -264,7 +274,7 @@ const checkout = ({
             <label htmlFor="email" className="leading-10 text-2xl to-black ">
               Email
             </label>
-            {user && user.value ? (
+            {user && user.token ? (
               <input
                 // onChange={handleChange}
                 value={user.email}
